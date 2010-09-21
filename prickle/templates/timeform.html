@@ -6,4 +6,20 @@
     <input type="text" name="description" id="description" />
     <input type="submit" value="Log It" />
 </form>
+Recent entries:
+<table>
+    <tr>
+        <th>Duration</th><th>Project</th><th>Description</th>
+    </tr>
+    {% for timesheet in c.existing_timesheets %}
+        <tr>
+            <td>{{timesheet.duration}}</td>
+            <td>{{timesheet.project}}</td>
+            <td>{{timesheet.description}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% for project in c.project_list %}
+{{project}}
+{% endfor %}
 {% endblock %}

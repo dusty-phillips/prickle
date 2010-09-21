@@ -48,8 +48,14 @@ class TimesheetForm(formencode.Schema):
 
 class TimesheetController(BaseController):
     def index(self):
+        c.existing_timesheets = Timesheet.all_timesheets()
+        c.project_list = [l.key for l in Timesheet.project_list()]
         return render('/timeform.html')
 
     @validate(schema=TimesheetForm, form='index')
     def logit(self):
+        timesheet = Timesheet(duration=self.form_result['duration'],
+                project=self.form_result['project'],
+                description=self.form_result['description'])
+        timesheet.store()
         return "%s %s %s" % (self.form_result['duration'], self.form_result['project'], self.form_result['description'])

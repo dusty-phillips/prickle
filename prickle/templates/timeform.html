@@ -5,6 +5,7 @@
     <input type="text" name="project" id="project" />
     <input type="text" name="description" id="description" />
     <input type="submit" value="Log It" />
+    <span id="error_message"></span>
 </form>
 Recent entries:
 <table>
@@ -28,7 +29,6 @@ Recent entries:
             "{{project}}"{% if not loop.last %},{% endif %}
             {% endfor %}
         ]});
-
-
+    setup_duration();
 </script>
 {% endblock %}

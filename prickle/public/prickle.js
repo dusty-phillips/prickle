@@ -43,3 +43,15 @@ function parse_duration(value) {
     if (minutes.length == 1) minutes = "0" + minutes; //FIXME: tired of yyp
     return "00:" + minutes;
 }
+function setup_duration() {
+    $('#duration').blur(function() {
+        var parsed = parse_duration($('#duration').val());
+        if (parsed == null) {
+            $('#error').html("Invalid Time");
+        }
+        else {
+            $('#duration').val(parsed);
+        }
+    });
+
+}

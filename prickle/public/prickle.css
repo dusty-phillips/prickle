@@ -11,3 +11,6 @@
     display: none;
     color: #f44;
 }
+#select_date {
+    float: right;
+}

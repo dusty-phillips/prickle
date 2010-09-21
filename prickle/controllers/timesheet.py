@@ -58,6 +58,8 @@ class TimesheetForm(formencode.Schema):
 
 class TimesheetController(BaseController):
     def index(self):
+        c.title = "Log Time"
+        c.entry_title = "Recent Entries"
         c.existing_timesheets = Timesheet.all_timesheets()
         c.project_list = [l.key for l in Timesheet.project_list()]
         c.date = datetime.date.today()
@@ -72,3 +74,12 @@ class TimesheetController(BaseController):
                 description=self.form_result['description'])
         timesheet.store()
         return redirect(url(controller="timesheet", action="index"))
+
+    def date(self, date):
+        c.title = "Log Time for %s" % date
+        c.entry_title = "Timesheets for %s" % date
+        c.existing_timesheets = Timesheet.for_date(date)
+        c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+        return render('/timeform.html')
+
+

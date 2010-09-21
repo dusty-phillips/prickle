@@ -20,6 +20,9 @@ def make_map(config):
 
     # CUSTOM ROUTES HERE
 
+    map.connect('/timesheet/date/{date}', controller="timesheet",
+            action="date", requirements={'date': '\d\d\d\d-\d\d-\d\d'})
+
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 

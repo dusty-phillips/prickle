@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+<h2>{{c.title}}</h2>
+<div id="select_date">
+</div>
 <form method="POST" action="/timesheet/logit">
     <input type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
     <input type="text" name="duration" id="duration" autofocus placeholder="time" />
@@ -8,7 +11,7 @@
     <input type="submit" value="Log It" />
     <span id="error_message"></span>
 </form>
-Recent entries:
+<h3>{{c.entry_title}}:</h3>
 <table>
     <tr>
         <th>Date</th><th>Duration</th><th>Project</th><th>Description</th>
@@ -32,5 +35,14 @@ Recent entries:
             {% endfor %}
         ]});
     setup_duration();
+    $('#select_date').datepicker({
+defaultDate: "{{c.date.strftime("%Y-%m-%d")}}",
+dateFormat: "yy-mm-dd",
+changeMonth: true,
+changeYear: true,
+onSelect: function(dateText, inst) {
+    window.location = "http://" + window.location.host + "/timesheet/date/" + dateText;
+}
+});
 </script>
 {% endblock %}

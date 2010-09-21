@@ -1,4 +1,5 @@
 from decimal import Decimal
+import datetime
 import couchdb
 from couchdb.mapping import Document, DateField, TextField, DecimalField, ViewField
 from couchdb.design import ViewDefinition
@@ -22,10 +23,20 @@ class Timesheet(Document):
             function(doc) {
                 emit(doc.name, doc);
             }''')
+    _by_date = ViewField('by_date', '''\
+            function(doc) {
+                emit(doc.date, doc);
+            }''')
 
     @classmethod
     def all_timesheets(cls):
         return cls._all_timesheets(timesheets)
+
+    @classmethod
+    def for_date(cls, date):
+        if isinstance(date, datetime.date):
+            date = datetime.date.strftime("%Y-m-%d")
+        return cls._by_date(timesheets, key=date)
 
     @classmethod
     def project_list(cls):
@@ -48,3 +59,4 @@ projects = ViewDefinition("projects", "all", '''\
 
 projects.sync(timesheets)
 Timesheet._all_timesheets.sync(timesheets)
+Timesheet._by_date.sync(timesheets)

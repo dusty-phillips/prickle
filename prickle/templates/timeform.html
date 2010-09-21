@@ -13,7 +13,7 @@ Recent entries:
     </tr>
     {% for timesheet in c.existing_timesheets %}
         <tr>
-            <td>{{timesheet.duration}}</td>
+            <td>{{"%.2f"|format(timesheet.duration)}}</td>
             <td>{{timesheet.project}}</td>
             <td>{{timesheet.description}}</td>
         </tr>

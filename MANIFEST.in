@@ -1,0 +1,3 @@
+include prickle/config/deployment.ini_tmpl
+recursive-include prickle/public *
+recursive-include prickle/templates *

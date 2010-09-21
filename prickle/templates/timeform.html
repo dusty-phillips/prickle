@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST" action="timesheet/logit">
+    <input type="text" name="duration" id="duration" />
+    <input type="text" name="project" id="project" />
+    <input type="text" name="description" id="description" />
+    <input type="submit" value="Log It" />
+</form>
+{% endblock %}

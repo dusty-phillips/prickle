@@ -58,4 +58,4 @@ class TimesheetController(BaseController):
                 project=self.form_result['project'],
                 description=self.form_result['description'])
         timesheet.store()
-        return "%s %s %s" % (self.form_result['duration'], self.form_result['project'], self.form_result['description'])
+        return redirect(url(controller="timesheet", action="index"))

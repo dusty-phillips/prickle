@@ -1,6 +1,6 @@
 from decimal import Decimal
 import couchdb
-from couchdb.mapping import Document, TextField, DecimalField, ViewField
+from couchdb.mapping import Document, DateField, TextField, DecimalField, ViewField
 from couchdb.design import ViewDefinition
 
 
@@ -14,6 +14,7 @@ except couchdb.http.ResourceNotFound:
     timesheets = couch.create(TIMESHEET_DB)
 
 class Timesheet(Document):
+    date = DateField()
     duration = DecimalField()
     project = TextField()
     description = TextField()

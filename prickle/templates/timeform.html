@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <form method="POST" action="/timesheet/logit">
-    <input type="text" name="duration" id="duration" />
-    <input type="text" name="project" id="project" />
-    <input type="text" name="description" id="description" />
+    <input type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
+    <input type="text" name="duration" id="duration" autofocus placeholder="time" />
+    <input type="text" name="project" id="project" placeholder="project" />
+    <input type="text" name="description" id="description" placeholder="description"/>
     <input type="submit" value="Log It" />
     <span id="error_message"></span>
 </form>
 Recent entries:
 <table>
     <tr>
-        <th>Duration</th><th>Project</th><th>Description</th>
+        <th>Date</th><th>Duration</th><th>Project</th><th>Description</th>
     </tr>
     {% for timesheet in c.existing_timesheets %}
         <tr>
+            <td>{{timesheet.date.strftime('%Y-%m-%d')}}</td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>
             <td>{{timesheet.project}}</td>
             <td>{{timesheet.description}}</td>

@@ -13,6 +13,9 @@ function parse_duration(value) {
      * Converts the value to formated as hh:mm
      */
     parsable = /^[0-9]+[:.]?[0-9]*$/;
+    if (value == '') {
+        return '';
+    }
     if (!parsable.test(value)) {
         return null;
     }
@@ -47,11 +50,15 @@ function setup_duration() {
     $('#duration').blur(function() {
         var parsed = parse_duration($('#duration').val());
         if (parsed == null) {
-            $('#error').html("Invalid Time");
+            quick_error("Invalid Time");
         }
         else {
             $('#duration').val(parsed);
         }
     });
 
+}
+function quick_error(value) {
+    $('#error_message').html(value);
+    $('#error_message').fadeIn('fast').delay(8000).fadeOut('slow');
 }

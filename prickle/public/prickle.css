@@ -7,3 +7,7 @@
 #description {
     width: 30ex;
 }
+#error_message {
+    display: none;
+    color: #f44;
+}

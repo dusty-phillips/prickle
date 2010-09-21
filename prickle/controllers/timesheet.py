@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 from decimal import Decimal
 
@@ -40,8 +41,17 @@ class DurationValidator(validators.FancyValidator):
         minutes = int(d * 60 % 60)
         return "%#02d:%#02d" % (hours, minutes)
 
+class DateValidator(validators.FancyValidator):
+    format = "%Y-%m-%d"
+    def _to_python(self, value, state):
+        return datetime.datetime.strptime(value, self.format).date()
+
+    def _from_python(self, value, state):
+        return value.strftime(self.format)
+
 # This one, too?
 class TimesheetForm(formencode.Schema):
+    date = DateValidator()
     duration = DurationValidator()
     project = formencode.validators.String(not_empty=True)
     description = formencode.validators.String(not_empty=True)
@@ -50,11 +60,14 @@ class TimesheetController(BaseController):
     def index(self):
         c.existing_timesheets = Timesheet.all_timesheets()
         c.project_list = [l.key for l in Timesheet.project_list()]
+        c.date = datetime.date.today()
         return render('/timeform.html')
 
     @validate(schema=TimesheetForm, form='index')
     def logit(self):
-        timesheet = Timesheet(duration=self.form_result['duration'],
+        timesheet = Timesheet(
+                date=self.form_result['date'],
+                duration=self.form_result['duration'],
                 project=self.form_result['project'],
                 description=self.form_result['description'])
         timesheet.store()

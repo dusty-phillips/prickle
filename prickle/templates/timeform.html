@@ -19,7 +19,16 @@ Recent entries:
         </tr>
     {% endfor %}
 </table>
-{% for project in c.project_list %}
-{{project}}
-{% endfor %}
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $("#project").autocomplete({
+        source: [
+            {% for project in c.project_list %}
+            "{{project}}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]});
+
+
+</script>
 {% endblock %}

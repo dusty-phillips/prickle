@@ -79,7 +79,8 @@ class TimesheetController(BaseController):
         c.title = "Log Time for %s" % date
         c.entry_title = "Timesheets for %s" % date
         c.existing_timesheets = Timesheet.for_date(date)
+        # Would it be optimal to do this inside couchdb using a reduce function?
+        c.total_time = sum(t.duration for t in c.existing_timesheets)
         c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         return render('/timeform.html')
-
 

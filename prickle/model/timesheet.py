@@ -74,21 +74,20 @@ class Project(Document):
         # Note that this is getting project names from the timesheet
         # database. This allows users to create projects that don't exist
         # yet
-        return [p.key for p in projects(timesheets, group=True)]
+        return [p.key for p in project_names(timesheets, group=True)]
 
     @classmethod
     def load(cls, id, db=projects):
-        return Document.load(db, id)
+        return super(Project, cls).load(db, id)
 
     @classmethod
-    def load_or_create(cls, id, db=timesheets):
+    def load_or_create(cls, id, db=projects):
         project = cls.load(id, db)
         if not project:
-            return cls(id)
+            project = cls(id)
+        return project
 
-
-
-projects = ViewDefinition("projects", "all", '''\
+project_names = ViewDefinition("projects", "all", '''\
     function(doc) {
         if (doc.project) {
             emit(doc.project, 1);
@@ -99,7 +98,7 @@ projects = ViewDefinition("projects", "all", '''\
         return sum(values);
     }''')
 
-projects.sync(timesheets)
+project_names.sync(timesheets)
 Timesheet._all_timesheets.sync(timesheets)
 Timesheet._by_date.sync(timesheets)
 Timesheet._by_project.sync(timesheets)

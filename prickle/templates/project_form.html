@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Project {{c.project.id}}</h2>
+<form method="POST" action="{{h.url(controller="projects", action="edit", id=c.project.id)}}">
+    <label for="rate">Rate:</label><input type="number" name="rate" value="{{c.project.rate}}" />
+    <input type="submit" value="Save" />
+</form>
+{% endblock %}

@@ -10,5 +10,7 @@
             <td>{{timesheet.description}}</td>
         </tr>
     {% endfor %}
+    {% if c.total_time %}
     <tr><th>Total:</th><td>{{c.total_time}}</td></tr>
+    {% endif %}
 </table>

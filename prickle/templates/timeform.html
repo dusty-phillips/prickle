@@ -12,20 +12,7 @@
     <span id="error_message"></span>
 </form>
 <h3>{{c.entry_title}}:</h3>
-<table>
-    <tr>
-        <th>Date</th><th>Duration</th><th>Project</th><th>Description</th>
-    </tr>
-    {% for timesheet in c.timesheets %}
-        <tr>
-            <td>{{timesheet.date.strftime('%Y-%m-%d')}}</td>
-            <td>{{"%.2f"|format(timesheet.duration)}}</td>
-            <td>{{timesheet.project}}</td>
-            <td>{{timesheet.description}}</td>
-        </tr>
-    {% endfor %}
-    <tr><th>Total:</th><td>{{c.total_time}}</td></tr>
-</table>
+{% include "/timesheet_table.html" %}
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">

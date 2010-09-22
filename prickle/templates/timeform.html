@@ -16,7 +16,7 @@
     <tr>
         <th>Date</th><th>Duration</th><th>Project</th><th>Description</th>
     </tr>
-    {% for timesheet in c.existing_timesheets %}
+    {% for timesheet in c.timesheets %}
         <tr>
             <td>{{timesheet.date.strftime('%Y-%m-%d')}}</td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>

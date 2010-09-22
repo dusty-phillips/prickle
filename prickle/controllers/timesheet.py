@@ -60,7 +60,7 @@ class TimesheetController(BaseController):
     def index(self):
         c.title = "Log Time"
         c.entry_title = "Recent Entries"
-        c.existing_timesheets = Timesheet.all_timesheets()
+        c.timesheets = Timesheet.all_timesheets()
         c.project_list = [l.key for l in Timesheet.project_list()]
         c.date = datetime.date.today()
         return render('/timeform.html')
@@ -78,9 +78,11 @@ class TimesheetController(BaseController):
     def date(self, date):
         c.title = "Log Time for %s" % date
         c.entry_title = "Timesheets for %s" % date
-        c.existing_timesheets = Timesheet.for_date(date)
+        c.timesheets = Timesheet.for_date(date)
         # Would it be optimal to do this inside couchdb using a reduce function?
-        c.total_time = sum(t.duration for t in c.existing_timesheets)
+        c.total_time = sum(t.duration for t in c.timesheets)
         c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         return render('/timeform.html')
-
+    
+    def project(self, id):
+        pass

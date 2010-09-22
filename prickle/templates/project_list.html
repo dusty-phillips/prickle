@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul>
+    {% for project in c.projects %}
+    <li><a href="{{h.url(controller="projects", action="view", id=project)}}">{{project}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

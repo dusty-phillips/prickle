@@ -54,7 +54,7 @@ class Timesheet(Document):
 
     @classmethod
     def project_list(cls):
-        return projects(timesheets, group=True)
+        return [p.key for p in projects(timesheets, group=True)]
 
     def store(self, db=timesheets):
         # default database

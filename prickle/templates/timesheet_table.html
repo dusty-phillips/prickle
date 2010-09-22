@@ -1,16 +1,18 @@
 <table>
     <tr>
-        <th>Date</th><th>Duration</th><th>Project</th><th>Description</th>
+        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th>
     </tr>
     {% for timesheet in c.timesheets %}
         <tr>
             <td><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>
+            <td>{{timesheet.rate}}</td>
+            <td>{{timesheet.fee}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
             <td>{{timesheet.description}}</td>
         </tr>
     {% endfor %}
     {% if c.total_time %}
-    <tr><th>Total:</th><td>{{c.total_time}}</td></tr>
+    <tr><th>Total:</th><td>{{c.total_time}}</td><td></td><td>{{c.total_fee}}</td></tr>
     {% endif %}
 </table>

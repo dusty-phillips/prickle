@@ -81,6 +81,7 @@ class TimesheetController(BaseController):
         c.timesheets = Timesheet.for_date(date)
         # Would it be optimal to do this inside couchdb using a reduce function?
         c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
         c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         c.project_list = Project.project_list()
         return render('/timeform.html')
@@ -89,10 +90,12 @@ class TimesheetController(BaseController):
         c.title = "Timesheet summary for %s" % month, year
         c.timesheets = Timesheet.for_month(year, month)
         c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
         return render('/timesheet_summary.html')
     
     def project(self, id):
         c.timesheets = Timesheet.for_project(id)
         c.title = "Timesheets for %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
         return render('/timesheet_summary.html')

@@ -62,8 +62,19 @@ class Timesheet(Document):
         # default database
         super(Timesheet, self).store(db)
 
+    @property
+    def rate(self):
+        project = Project.load(self.project)
+        if project:
+            return project.rate
+        return 0 
+
+    @property
+    def fee(self):
+        return self.rate * self.duration
+
 class Project(Document):
-    rate = DecimalField(default=50)
+    rate = DecimalField(default=0)
 
     def store(self, db=projects):
         # default database

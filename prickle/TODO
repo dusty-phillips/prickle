@@ -1,5 +1,4 @@
 * invoicing
 * show only unbilled hours
 * recording unbillable hours
-* rate for projects
 * move validators to their own module

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{c.title}}</h2>
+Project Rate: ${{c.project.rate}} (<a href="{{url(controller="projects", action="view", id=c.project.id)}}">Edit</a>)
 {% include "/timesheet_table.html" %}
 {% endblock %}

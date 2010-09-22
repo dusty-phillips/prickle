@@ -96,8 +96,9 @@ class TimesheetController(BaseController):
         return render('/timesheet_summary.html')
     
     def project(self, id):
+        c.project = Project.load_or_create(id)
         c.timesheets = Timesheet.for_project(id)
         c.title = "Timesheets for %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
-        return render('/timesheet_summary.html')
+        return render('/project_summary.html')

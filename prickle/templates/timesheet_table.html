@@ -4,9 +4,9 @@
     </tr>
     {% for timesheet in c.timesheets %}
         <tr>
-            <td>{{timesheet.date.strftime('%Y-%m-%d')}}</td>
+            <td><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>
-            <td>{{timesheet.project}}</td>
+            <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
             <td>{{timesheet.description}}</td>
         </tr>
     {% endfor %}

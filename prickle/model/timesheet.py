@@ -27,6 +27,10 @@ class Timesheet(Document):
             function(doc) {
                 emit(doc.date, doc);
             }''')
+    _by_project = ViewField('by_project', '''\
+            function(doc) {
+                emit(doc.project, doc);
+            }''')
 
     @classmethod
     def all_timesheets(cls):
@@ -37,6 +41,16 @@ class Timesheet(Document):
         if isinstance(date, datetime.date):
             date = datetime.date.strftime("%Y-m-%d")
         return cls._by_date(timesheets, key=date)
+
+    @classmethod
+    def for_month(cls, year, month):
+        month = int(month)
+        return cls._by_date(timesheets, startkey="%s-%#02d-01" % (year, month),
+                endkey="%s-%#02d-00"% (year, month+1))
+
+    @classmethod
+    def for_project(cls, project):
+        return cls._by_project(timesheets, key=project)
 
     @classmethod
     def project_list(cls):
@@ -60,3 +74,4 @@ projects = ViewDefinition("projects", "all", '''\
 projects.sync(timesheets)
 Timesheet._all_timesheets.sync(timesheets)
 Timesheet._by_date.sync(timesheets)
+Timesheet._by_project.sync(timesheets)

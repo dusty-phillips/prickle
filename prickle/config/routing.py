@@ -22,6 +22,8 @@ def make_map(config):
 
     map.connect('/timesheet/date/{date}', controller="timesheet",
             action="date", requirements={'date': '\d\d\d\d-\d\d-\d\d'})
+    map.connect('/timesheet/month/{year}/{month}', controller="timesheet",
+            action="month", requirements={'year': '\d\d\d\d', 'month': '\d\d'})
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

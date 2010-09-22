@@ -83,6 +83,15 @@ class TimesheetController(BaseController):
         c.total_time = sum(t.duration for t in c.timesheets)
         c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         return render('/timeform.html')
+
+    def month(self, year, month):
+        c.title = "Timesheet summary for %s" % month, year
+        c.timesheets = Timesheet.for_month(year, month)
+        c.total_time = sum(t.duration for t in c.timesheets)
+        return render('/timesheet_summary.html')
     
     def project(self, id):
-        pass
+        c.timesheets = Timesheet.for_project(id)
+        c.title = "Timesheets for %s" % id
+        c.total_time = sum(t.duration for t in c.timesheets)
+        return render('/timesheet_summary.html')

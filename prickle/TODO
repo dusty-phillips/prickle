@@ -3,4 +3,3 @@
 * replace formencode with flatland, toscawidgets, validino... SOMETHING
 * consider that tax name may vary (GST, HST)
 * split templates into folders
-* test from the empty

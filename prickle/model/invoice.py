@@ -3,8 +3,11 @@ import couchdb
 from couchdb.mapping import (Document, DateField, TextField, DecimalField,
         ViewField, IntegerField)
 from couchdb.design import ViewDefinition
+from pylons import config
 
-INVOICE_DB = "prickle_invoices"
+prefix = config.get('couchdb_prefix', 'prickle_')
+
+INVOICE_DB = prefix + "invoices"
 
 couch = couchdb.Server()
 

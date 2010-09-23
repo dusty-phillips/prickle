@@ -4,12 +4,14 @@ import couchdb
 from couchdb.mapping import Document, DateField, TextField, DecimalField, ViewField
 from couchdb.design import ViewDefinition
 from prickle.model.invoice import Invoice
+from pylons import config
 
+prefix = config.get('couchdb_prefix', 'prickle_')
 
 couch = couchdb.Server()
 
-TIMESHEET_DB = "prickle_timesheets"
-PROJECT_DB = "prickle_projects"
+TIMESHEET_DB = prefix + "timesheets"
+PROJECT_DB = prefix + "projects"
 
 try:
     timesheets = couch[TIMESHEET_DB]

@@ -8,13 +8,14 @@ except ImportError:
 setup(
     name='prickle',
     version='0.1',
-    description='',
-    author='',
-    author_email='',
+    description='A simple couchdb based time-tracking tool',
+    author='Dusty Phillips',
+    author_email='dusty@archlinux.ca',
     url='',
     install_requires=[
         "Pylons>=1.0",
         "Jinja2",
+        "couchdb-python",
     ],
     setup_requires=["PasteScript>=1.6.3"],
     packages=find_packages(exclude=['ez_setup']),

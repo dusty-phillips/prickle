@@ -24,6 +24,10 @@ class Invoice(Document):
             function(doc) {
                 emit(doc.id, doc);
             }''')
+    _by_project = ViewField('by_project', '''\
+            function(doc) {
+                emit(doc.project, doc);
+            }''')
 
     def store(self, db=invoices):
         # default database
@@ -34,7 +38,12 @@ class Invoice(Document):
         return cls._all_invoices(invoices)
 
     @classmethod
+    def for_project(cls, project):
+        return cls._by_project(invoices, key=project)
+
+    @classmethod
     def load(cls, id, db=invoices):
         return super(Invoice, cls).load(db, id)
 
 Invoice._all_invoices.sync(invoices)
+Invoice._by_project.sync(invoices)

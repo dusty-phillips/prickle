@@ -4,10 +4,10 @@ body {
     background-color: white;
     color: black;
 }
-table {
+table.timesheets {
     border-collapse: collapse;
 }
-table td, table th {
+table.timesheets td, table th {
     border-width: 1px;
     border-style: solid;
     border-color: #ddd;
@@ -43,4 +43,11 @@ tr.total {
 }
 #invoice_number {
     width: 5em;
+}
+a {
+    color: #79f;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }

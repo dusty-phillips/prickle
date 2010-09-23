@@ -3,7 +3,10 @@
 <h2>List of Projects</h2>
 <ul>
     {% for project in c.projects %}
-    <li><a href="{{h.url(controller="projects", action="view", id=project)}}">{{project}}</a></li>
+    <li>
+        <a href="{{h.url(controller="timesheet", action="project", id=project)}}">{{project}}</a>
+        <a href="{{h.url(controller="projects", action="view", id=project)}}">Edit</a>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}

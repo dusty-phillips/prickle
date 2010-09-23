@@ -1,0 +1,18 @@
+
+<table>
+    {% for invoice in c.invoices %}
+    <tr>
+        <td>
+            <a href="{{h.url(controller="invoice", action="view", id=invoice.id)}}">{{invoice.id}}</a>
+        </td> 
+        <td>
+            <a href="{{h.url(controller="timesheet", action="month", month=invoice.date.strftime('%m'), year=invoice.date.strftime('%Y'))}}">{{invoice.date.strftime('%Y-%m-%d')}}</a></td>
+        <td>
+            <a href="{{h.url(controller="timesheet", action="project", id=invoice.project)}}">{{invoice.project}}</a>
+        </td>
+        <td>
+            <a href="{{h.url(controller="timesheet", action="invoice", id=invoice.id)}}">Timesheets</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

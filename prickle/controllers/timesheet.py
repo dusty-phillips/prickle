@@ -12,6 +12,7 @@ from pylons.controllers.util import abort, redirect
 from prickle.lib.base import BaseController, render
 
 from prickle.model.timesheet import Timesheet, Project
+from prickle.model.invoice import Invoice
 
 
 log = logging.getLogger(__name__)
@@ -62,3 +63,11 @@ class TimesheetController(BaseController):
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         return render('/project_summary.html')
+
+    def invoice(self, id):
+        c.timesheets = Timesheet.for_invoice(id)
+        c.title = "Timesheets for Invoice %s" % id
+        c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
+        c.invoice = Invoice.load(id)
+        return render('/timesheet_summary.html')

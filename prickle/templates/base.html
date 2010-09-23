@@ -6,6 +6,11 @@
         <link rel="stylesheet" type="text/css" href="/prickle.css" />
     </head>
     <body>
+        <div class="nav">
+            <a href="/">Dashboard</a>
+            <a href="{{url(controller="projects", action="list")}}">Projects</a>
+            <a href="{{url(controller="invoice", action="list")}}">Invoices</a>
+        </div>
         {% block content %}
         {% endblock %}
 

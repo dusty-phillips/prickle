@@ -1,7 +1,6 @@
 import logging
 from decimal import Decimal
 
-form forms.timesheet import ProjectForm
 
 from pylons.decorators import validate
 from pylons import request, response, session, tmpl_context as c, url
@@ -10,6 +9,7 @@ from pylons.controllers.util import abort, redirect
 from prickle.lib.base import BaseController, render
 
 from prickle.model.timesheet import Timesheet, Project
+from prickle.forms.timesheet import ProjectForm
 
 log = logging.getLogger(__name__)
 

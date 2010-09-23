@@ -1,0 +1,7 @@
+CouchDB==0.8
+Jinja2==2.5.2
+Pylons==1.0
+Routes==1.12.3
+distribute==0.6.10
+ipython==0.10
+python-dateutil==1.5

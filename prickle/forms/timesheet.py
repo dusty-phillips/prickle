@@ -17,6 +17,7 @@ class UniqueInvoiceValidator(formencode.validators.FancyValidator):
             raise formencode.validators.Invalid("Duplicate invoice id")
 
 class TimesheetForm(formencode.Schema):
+    next = formencode.validators.String()
     date = DateValidator()
     duration = DurationValidator()
     project = formencode.validators.String(not_empty=True)

@@ -35,7 +35,10 @@ class TimesheetController(BaseController):
                 project=self.form_result['project'],
                 description=self.form_result['description'])
         timesheet.store()
-        return redirect(url(controller="timesheet", action="index"))
+        path = request.params.get('next')
+        if not path:
+            path = url(controller="timesheet", action="index")
+        return redirect(path)
 
     def date(self, date):
         c.title = "Log Time for %s" % date

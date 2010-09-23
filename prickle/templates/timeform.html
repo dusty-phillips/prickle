@@ -4,6 +4,7 @@
 <div id="select_date">
 </div>
 <form method="POST" action="/timesheet/logit">
+    <input type="hidden" name="next" value="{{request.path}}" />
     <input type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
     <input type="text" name="duration" id="duration" autofocus placeholder="time" />
     <input type="text" name="project" id="project" placeholder="project" />

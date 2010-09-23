@@ -28,7 +28,10 @@
             {% for project in c.project_list %}
             "{{project}}"{% if not loop.last %},{% endif %}
             {% endfor %}
-        ]});
+            ],
+        delay: 0,
+        selectFirst: true,
+            });
     setup_duration();
     $('#select_date').datepicker({
 defaultDate: "{{c.date.strftime("%Y-%m-%d")}}",

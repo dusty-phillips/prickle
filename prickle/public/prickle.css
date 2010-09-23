@@ -1,4 +1,9 @@
 /* general */
+body {
+    font-family: bitstream vera sans,sans-serif;
+    background-color: white;
+    color: black;
+}
 table {
     border-collapse: collapse;
 }

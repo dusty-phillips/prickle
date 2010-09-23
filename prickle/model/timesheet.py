@@ -28,7 +28,7 @@ class Timesheet(Document):
     invoice = TextField(default='')
     _all_timesheets = ViewField('timesheets', '''\
             function(doc) {
-                emit(doc.name, doc);
+                emit(doc.project, doc);
             }''')
     _by_date = ViewField('by_date', '''\
             function(doc) {
@@ -52,8 +52,11 @@ class Timesheet(Document):
             }''')
 
     @classmethod
-    def all_timesheets(cls):
-        return cls._all_timesheets(timesheets)
+    def all_timesheets(cls, unbilled=False):
+        if not unbilled:
+            return cls._all_timesheets(timesheets)
+        else:
+            return cls._by_project_unbilled(timesheets)
 
     @classmethod
     def for_date(cls, date):

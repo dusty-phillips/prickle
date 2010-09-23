@@ -21,9 +21,8 @@ class TimesheetController(BaseController):
     def index(self):
         today = datetime.date.today()
         c.title = "Log Time"
-        c.entry_title = "This Month's Entries"
-        c.timesheets = Timesheet.for_month(today.year, today.strftime("%m"))
-        c.timesheets = Timesheet.all_timesheets()
+        c.entry_title = "Uninvoiced Entries"
+        c.timesheets = Timesheet.all_timesheets(unbilled=True)
         c.project_list = Project.project_list()
         c.date = datetime.date.today()
         return render('/timeform.html')

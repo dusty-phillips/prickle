@@ -13,6 +13,12 @@
 </form>
 <h3>{{c.entry_title}}:</h3>
 {% include "/timesheet_table.html" %}
+<h3>Projects</h3>
+<ul>
+{% for project in c.project_list %}
+    <li><a href="{{h.url(controller="timesheet", action="project", id=project)}}">{{project}}</a></li>
+{% endfor %}
+</ul>
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">

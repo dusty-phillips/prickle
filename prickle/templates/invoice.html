@@ -106,16 +106,16 @@
                 <td>${{c.total_fee}}</td>
             </tr>
             {% if c.invoice.tax %}
-            <tr>
-                <td></td><td></td>
-                <td>HST ({{c.invoice.tax}})%:</td>
-                <td>${{c.taxes}}</td>
-            </tr>
-            <tr>
-                <td></td><td></td>
-                <td>Total:</td>
-                <td>${{c.after_taxes}}</td>
-            </tr>
+                <tr>
+                    <td></td><td></td>
+                    <th>HST ({{c.invoice.tax}}%):</th>
+                    <td>${{"%.2f" % c.taxes}}</td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                    <th>Total:</h>
+                    <td>${{"%.2f" % c.after_taxes}}</td>
+                </tr>
             {% endif %}
         </table>
         <footer>

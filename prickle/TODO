@@ -1,4 +1,5 @@
 * ability to edit timeslots (change time, description)
+* ability to delete timeslots, projects
 * automatically guess the invoice number
 * prepopulate bill_to from previous invoices to that project
 * replace formencode with flatland toscawidgets, validino... SOMETHING
@@ -6,4 +7,3 @@
 * split templates into folders
 * Show total, tax calculation on the show timesheets for invoice page
     * this entails putting some of that stuff in the model.
-* Add Project summary to month view

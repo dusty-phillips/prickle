@@ -1,6 +1,6 @@
 import logging
 import datetime
-
+from collections import defaultdict
 from decimal import Decimal
 
 from prickle.forms.timesheet import TimesheetForm
@@ -54,6 +54,17 @@ class TimesheetController(BaseController):
         c.timesheets = Timesheet.for_month(year, month)
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
+        #FIXME: I'm really tired and suspect this is not the right way to do this
+        project_summary = defaultdict(dict) 
+        for timesheet in c.timesheets:
+            project_summary[timesheet.project]['duration'] = \
+                    project_summary[timesheet.project].setdefault(
+                            'duration', 0) + timesheet.duration
+            project_summary[timesheet.project]['fee'] = \
+                    project_summary[timesheet.project].setdefault(
+                            'fee', 0) + timesheet.fee
+
+        c.project_summary = project_summary
         return render('/month_summary.html')
     
     def project(self, id):
@@ -71,4 +82,6 @@ class TimesheetController(BaseController):
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoice = Invoice.load(id)
+        c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
+        c.after_taxes = c.total_fee + c.taxes
         return render('/timesheet_summary.html')

@@ -4,4 +4,19 @@
 <a href="/timesheet/month/{{h.previous_month(c.date).strftime("%Y/%m")}}">Previous Month</a>
 <a href="/timesheet/month/{{h.next_month(c.date).strftime("%Y/%m")}}">Next Month</a>
 {% include "/timesheet_table.html" %}
+<h2>Project Summary</h2>
+<table class="timesheets">
+    <tr>
+        <th>Project</th>
+        <th>Duration</th>
+        <th>Fee</th>
+    </tr>
+    {% for project, summary in c.project_summary.items() %}
+    <tr>
+        <td><a href="{{h.url(controller="timesheet", action="project", id=project)}}">{{project}}</a></td>
+        <td>{{summary.duration}}</td>
+        <td>${{summary.fee}}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

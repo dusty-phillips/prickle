@@ -2,4 +2,17 @@
 {% block content %}
 <h2>{{c.title}}</h2>
 {% include "/timesheet_table.html" %}
+{% if c.invoice.tax %}
+<table>
+    <tr>
+        <td>HST ({{c.invoice.tax}}%):</td>
+        <td>${{"%.2f" % c.taxes}}</td>
+    </tr>
+    <tr>
+        <td></td><td></td>
+        <td>Total:</td>
+        <td>${{"%.2f" % c.after_taxes}}</td>
+    </tr>
+</table>
+{% endif %}
 {% endblock %}

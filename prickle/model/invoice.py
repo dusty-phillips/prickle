@@ -47,7 +47,10 @@ class Invoice(Document):
 
     @classmethod
     def next_invoice_number(cls):
-        return last_invoice_num(invoices).rows[0]['value'] + 1
+        result = last_invoice_num(invoices)
+        if result.rows:
+            return result.rows[0]['value'] + 1
+        return 1
 
 last_invoice_num = ViewDefinition("last_num", "all", '''\
     function(doc) {

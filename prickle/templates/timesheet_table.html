@@ -1,6 +1,6 @@
 <table class="timesheets">
     <tr>
-        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th><th>#</th>
+        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th>
     </tr>
     {% for timesheet in c.timesheets %}
         <tr>
@@ -10,10 +10,9 @@
             <td>${{"%.2f"|format(timesheet.fee)}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
             <td class="description">{{timesheet.description}}</td>
-            <td>{{timesheet.invoice}}</td>
         </tr>
     {% endfor %}
     {% if c.total_time %}
-    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td><td></td></tr>
+    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td></tr>
     {% endif %}
 </table>

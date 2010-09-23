@@ -19,7 +19,7 @@ class UniqueInvoiceValidator(formencode.validators.FancyValidator):
 class TimesheetForm(formencode.Schema):
     next = formencode.validators.String()
     date = DateValidator()
-    duration = DurationValidator()
+    duration = DurationValidator(not_empty=True)
     project = formencode.validators.String(not_empty=True)
     description = formencode.validators.String(not_empty=True)
 

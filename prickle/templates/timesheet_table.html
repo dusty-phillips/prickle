@@ -2,6 +2,9 @@
     <tr>
         <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th>
     </tr>
+    {% if c.total_time %}
+    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td></tr>
+    {% endif %}
     {% for timesheet in c.timesheets %}
         <tr>
             <td class="date"><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>

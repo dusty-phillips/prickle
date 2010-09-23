@@ -42,7 +42,10 @@ tr.total td {
     border-top-width: 4px;
     border-top-style: double;
     border-top-color: #dde;
-    background-color: #efefff;
+    border-bottom-width: 4px;
+    border-bottom-style: double;
+    border-bottom-color: #dde;
+    background-color: #eee;
 }
 input {
     border-color: #dde;

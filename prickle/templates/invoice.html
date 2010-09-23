@@ -85,10 +85,11 @@
         <strong>GST Registration: 840532550 RT0001</strong><br />
         Invoice #{{c.invoice.id}}
         <div class="bill_to">
+            <strong>Bill To:</strong><br />
             {{h.nl2br(c.invoice.bill_to)}}
         </div>
         <div class="date">
-            Date: {{c.invoice.date.strftime("%a %b, %Y")}}
+            <strong>Date:</strong> {{c.invoice.date.strftime("%B %d, %Y")}}
         </div>
     
         <table class="invoice">

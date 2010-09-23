@@ -5,18 +5,24 @@ body {
     color: black;
 }
 table.timesheets {
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
+    border-spacing: 0px;
+    border-radius: 10px;
+    border-color: #dde;
+    border-width: 5px;
+    border-style: double;
     margin-right: 1em;
 }
-table.timesheets td, table th {
-    border-width: 1px;
-    border-style: solid;
-    border-color: #dde;
+table.timesheets td, table.timesheets th {
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #dde;
 }
 table.timesheets td {
-    padding: 3px;
+    padding: 4px;
 }
 table.timesheets td.date {
+    border-left-width: 0px;
     font-size: small;
     width: 12ex;
 }
@@ -29,9 +35,22 @@ table.timesheets tr {
 table.timesheets tr:nth-child(2n) {
     background-color: #eef;
 }
-tr.total {
-    border-top-size: thick;
-    border-top-style: dotted;
+tr.total td {
+    border-top-width: 4px;
+    border-top-style: double;
+    border-top-color: #dde;
+    background-color: #efefff;
+}
+input {
+    border-color: #dde;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+}
+input[type=submit] {
+    background-color: #eef;
+    padding: 3px 12px;
+    color: #69e;
 }
 /* logit form */
 #duration {

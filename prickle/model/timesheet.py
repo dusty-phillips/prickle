@@ -41,6 +41,12 @@ class Timesheet(Document):
             function(doc) {
                 emit(doc.project, doc);
             }''')
+    _by_date_unbilled = ViewField('by_date', '''\
+            function(doc) {
+                if (!doc.invoice) {
+                    emit(doc.date, doc);
+                }
+            }''')
     _by_project_unbilled = ViewField('by_project', '''\
             function(doc) {
                 if (!doc.invoice) {
@@ -59,7 +65,7 @@ class Timesheet(Document):
         if not unbilled:
             return cls._all_timesheets(timesheets)
         else:
-            return cls._by_project_unbilled(timesheets)
+            return cls._by_date_unbilled(timesheets, descending=True)
 
     @classmethod
     def for_date(cls, date):
@@ -144,3 +150,4 @@ Timesheet._by_date.sync(timesheets)
 Timesheet._by_invoice.sync(timesheets)
 Timesheet._by_project.sync(timesheets)
 Timesheet._by_project_unbilled.sync(timesheets)
+Timesheet._by_date_unbilled.sync(timesheets)

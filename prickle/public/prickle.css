@@ -55,6 +55,26 @@ input[type=submit] {
     padding: 3px 12px;
     color: #69e;
 }
+/* nav */
+.nav {
+    border-style: double;
+    border-radius: 10px;
+    border-width: 5px;
+    border-color: #dde;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55em;
+    text-align: center;
+    background-color: #eef;
+}
+.nav a {
+    font-weight: bold;
+}
+.nav a:hover {
+    background-color: #fff;
+    text-decoration: none;
+}
 /* logit form */
 #duration {
     width: 6ex;

@@ -1,3 +1,5 @@
+* invoice timesheets view should summarize invoice and include a link
+    to print invoice
 * ability to edit timeslots (change time, description)
 * ability to delete timeslots
 * replace formencode with flatland, toscawidgets, validino... SOMETHING

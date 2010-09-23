@@ -14,8 +14,8 @@
     {% for project, summary in c.project_summary.items() %}
     <tr>
         <td><a href="{{h.url(controller="timesheet", action="project", id=project)}}">{{project}}</a></td>
-        <td>{{summary.duration}}</td>
-        <td>${{summary.fee}}</td>
+        <td>{{"%.2f" % summary.duration}}</td>
+        <td>${{"%.2f" % summary.fee}}</td>
     </tr>
     {% endfor %}
 </table>

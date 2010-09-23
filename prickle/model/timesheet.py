@@ -25,6 +25,7 @@ class Timesheet(Document):
     duration = DecimalField()
     project = TextField()
     description = TextField()
+    invoice = TextField(default='')
     _all_timesheets = ViewField('timesheets', '''\
             function(doc) {
                 emit(doc.name, doc);
@@ -36,6 +37,18 @@ class Timesheet(Document):
     _by_project = ViewField('by_project', '''\
             function(doc) {
                 emit(doc.project, doc);
+            }''')
+    _by_project_unbilled = ViewField('by_project', '''\
+            function(doc) {
+                if (!doc.invoice) {
+                    emit(doc.project, doc);
+                }
+            }''')
+    _by_invoice = ViewField('by_invoice', '''\
+            function(doc) {
+                if(doc.invoice) {
+                    emit(doc.invoice, doc);
+                }
             }''')
 
     @classmethod
@@ -55,8 +68,15 @@ class Timesheet(Document):
                 endkey="%s-%#02d-00"% (year, month+1))
 
     @classmethod
-    def for_project(cls, project):
-        return cls._by_project(timesheets, key=project)
+    def for_project(cls, project, unbilled=False):
+        if not unbilled:
+            return cls._by_project(timesheets, key=project)
+        else:
+            return cls._by_project_unbilled(timesheets, key=project)
+
+    @classmethod
+    def for_invoice(cls, invoice):
+        return cls._by_invoice(timesheets, key=invoice)
 
     def store(self, db=timesheets):
         # default database
@@ -112,4 +132,6 @@ project_names = ViewDefinition("projects", "all", '''\
 project_names.sync(timesheets)
 Timesheet._all_timesheets.sync(timesheets)
 Timesheet._by_date.sync(timesheets)
+Timesheet._by_invoice.sync(timesheets)
 Timesheet._by_project.sync(timesheets)
+Timesheet._by_project_unbilled.sync(timesheets)

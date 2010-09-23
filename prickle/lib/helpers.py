@@ -6,3 +6,7 @@ available to Controllers. This module is available to templates as 'h'.
 # Import helpers as desired, or define your own, ie:
 #from webhelpers.html.tags import checkbox, password
 from pylons import url
+
+def nl2br(value):
+    return value.replace("\n", "<br />")
+

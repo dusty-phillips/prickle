@@ -1,3 +1,17 @@
+/* general */
+table {
+    border-collapse: collapse;
+}
+table td, table th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+}
+tr.total {
+    border-top-size: thick;
+    border-top-style: dotted;
+}
+/* logit form */
 #duration {
     width: 6ex;
 }
@@ -14,11 +28,14 @@
 #select_date {
     float: right;
 }
-table {
-    border-collapse: collapse;
+/* invoice form */
+#bill_to {
+    width: 20em;
+    height: 10em;
 }
-table td, table th {
-    border-width: 1px;
-    border-style: solid;
-    border-color: #ddd;
+#tax {
+    width: 5em;
+}
+#invoice_number {
+    width: 5em;
 }

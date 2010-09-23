@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <style>
+            body {
+                width: 7in;
+                height; 9in;
+                margin-top: 1in;
+                margin-bottom: 1in;
+                /*margin-left: 0.5in;*/
+                margin-right: 0.5in;
+            }
+            h1 {
+                text-align: center;
+                margin: 0px;
+                color: #999;
+            }
+            .contact_row {
+                font-size: 0.1in;
+                border-bottom: solid 1px black;
+            }
+            .contact_row .left {
+                float: left;
+                width: 2in;
+
+            }
+            .contact_row .center {
+                float: left;
+                text-align: center;
+                width: 3in;
+            }
+            .contact_row .right {
+                float: left;
+                text-align: right;
+                width: 2in;
+            }
+            .clearfix {
+                clear: both;
+            }
+            .bill_to {
+                border: solid 1px black;
+                width: 2.5in;
+                margin-left: 0.5in;
+                margin-top: 0.5in;
+                padding: 0.25in;
+            }
+            .date {
+                border-bottom: solid 1px black;
+                border-left: solid 1px black;
+                border-right: solid 1px black;
+                width: 2.5in;
+                margin-left: 0.5in;
+                padding-left: 0.25in;
+                padding-right: 0.25in;
+            }
+            table.invoice {
+                width: 7in;
+                border: solid 3px black;
+                border-collapse: collapse;
+                margin-top: 1in;
+                margin-bottom: 1in;
+            }
+            table.invoice td, table.invoice th {
+                border: solid 1px black;
+            }
+
+        </style>
+    </head>
+    <body onload="window.print();">
+        <h1>Dusty Phillips Code Craftsman</h1>
+        <div class="contact_row">
+            <div class="left">
+                403-957-0733
+            </div>
+            <div class="center">
+                298 Somerset Way SE&nbsp;
+                Unit 38&nbsp;
+                Medicine Hat AB&nbsp;
+                T1B 0E9
+            </div>
+            <div class="right">
+                dusty@archlinux.ca
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <strong>GST Registration: 840532550 RT0001</strong><br />
+        Invoice #{{c.invoice.id}}
+        <div class="bill_to">
+            {{h.nl2br(c.invoice.bill_to)}}
+        </div>
+        <div class="date">
+            Date: {{c.invoice.date.strftime("%a %b, %Y")}}
+        </div>
+    
+        <table class="invoice">
+            <tr>
+                <th>Project</th>
+                <th>Hours</th>
+                <th>Rate</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>{{c.project.id}}</td>
+                <td>{{c.total_time}}</td>
+                <td>${{"%.2f" % (c.project.rate)}}</td>
+                <td>${{c.total_fee}}</td>
+            </tr>
+            {% if c.invoice.tax %}
+            <tr>
+                <td></td><td></td>
+                <td>HST ({{c.invoice.tax}})%:</td>
+                <td>${{c.taxes}}</td>
+            </tr>
+            <tr>
+                <td></td><td></td>
+                <td>Total:</td>
+                <td>${{c.after_taxes}}</td>
+            </tr>
+            {% endif %}
+        </table>
+        <footer>
+        Please make cheques payable to Dusty Phillips
+        <br />
+        <br />
+        If you have any questions, please contact me.
+        </footer>
+    </body>
+</html>

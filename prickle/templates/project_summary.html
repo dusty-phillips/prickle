@@ -2,5 +2,6 @@
 {% block content %}
 <h2>{{c.title}}</h2>
 Project Rate: ${{c.project.rate}} (<a href="{{url(controller="projects", action="view", id=c.project.id)}}">Edit</a>)
+<a href="{{url(controller="invoice", action="create_form", id=c.project.id)}}">Create Invoice</a>
 {% include "/timesheet_table.html" %}
 {% endblock %}

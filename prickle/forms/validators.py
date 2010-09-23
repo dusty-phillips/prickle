@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from formencode import validators
 import formencode
 

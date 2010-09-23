@@ -4,8 +4,7 @@
 * automatically guess the invoice number
 * prepopulate bill_to from previous invoices to that project
 * replace formencode with flatland toscawidgets, validino... SOMETHING
-* consider that invoice values shouldn't change rates when project
-    rates change (copy rate into the invoice)
 * consider that tax name may vary (GST, HST)
 * show list of invoices
 * show time for an invoice
+* split templates into folders

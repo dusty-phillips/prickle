@@ -60,3 +60,7 @@ class InvoiceController(BaseController):
         c.taxes = c.total_fee * invoice.tax * Decimal("0.01")
         c.after_tax = c.total_fee + c.taxes
         return render("/invoice.html")
+
+    def list(self):
+        c.invoices = Invoice.all_invoices()
+        return render("/invoice_list.html")

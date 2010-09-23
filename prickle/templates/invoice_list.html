@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul>
+    {% for invoice in c.invoices %}
+    <li><a href="{{h.url(controller="invoice", action="view", id=invoice.id)}}">{{invoice.id}}</a> (
+    <a href="{{h.url(controller="timesheet", action="invoice", id=invoice.id)}}">Timesheets</a>)</li>
+    {% endfor %}
+</ul>
+{% endblock %}

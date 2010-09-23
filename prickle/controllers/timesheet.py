@@ -23,6 +23,8 @@ class TimesheetController(BaseController):
         c.title = "Log Time"
         c.entry_title = "Uninvoiced Entries"
         c.timesheets = Timesheet.all_timesheets(unbilled=True)
+        c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
         c.project_list = Project.project_list()
         c.date = datetime.date.today()
         return render('/timeform.html')

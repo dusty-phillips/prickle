@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>{{c.title or "Prickle"}}</title>
-        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/redmond/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="/prickle.css" />
     </head>
     <body>
@@ -15,8 +15,8 @@
         {% block content %}
         {% endblock %}
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <script src="/jquery.min.js"></script>
+        <script src="/jquery-ui.min.js"></script>
         <script src="/prickle.js"></script>
         {% block scripts %}
         {% endblock %}

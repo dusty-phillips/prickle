@@ -6,11 +6,28 @@ body {
 }
 table.timesheets {
     border-collapse: collapse;
+    margin-right: 1em;
 }
 table.timesheets td, table th {
     border-width: 1px;
     border-style: solid;
-    border-color: #ddd;
+    border-color: #dde;
+}
+table.timesheets td {
+    padding: 3px;
+}
+table.timesheets td.date {
+    font-size: small;
+    width: 12ex;
+}
+table.timesheets td.description {
+    font-size: small;
+}
+table.timesheets tr {
+    height: 2em;
+}
+table.timesheets tr:nth-child(2n) {
+    background-color: #eef;
 }
 tr.total {
     border-top-size: thick;
@@ -45,7 +62,7 @@ tr.total {
     width: 5em;
 }
 a {
-    color: #79f;
+    color: #69e;
     text-decoration: none;
 }
 a:hover {

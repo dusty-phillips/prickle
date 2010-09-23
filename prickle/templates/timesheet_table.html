@@ -1,15 +1,15 @@
 <table class="timesheets">
     <tr>
-        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th><th>Invoice</th>
+        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th><th>#</th>
     </tr>
     {% for timesheet in c.timesheets %}
         <tr>
-            <td><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
+            <td class="date"><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>
             <td>${{"%.2f"|format(timesheet.rate)}}</td>
             <td>${{"%.2f"|format(timesheet.fee)}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
-            <td>{{timesheet.description}}</td>
+            <td class="description">{{timesheet.description}}</td>
             <td>{{timesheet.invoice}}</td>
         </tr>
     {% endfor %}

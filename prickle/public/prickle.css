@@ -4,6 +4,9 @@ body {
     background-color: white;
     color: black;
 }
+h1, h2, h3 {
+    color: #58d;
+}
 table.timesheets {
     /*border-collapse: collapse;*/
     border-spacing: 0px;

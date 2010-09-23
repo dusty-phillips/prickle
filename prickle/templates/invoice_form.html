@@ -3,7 +3,7 @@
 <h2>Create Invoice for {{c.project.id}}</h2>
 <form method="POST" action="{{h.url(controller="invoice", action="create", id=c.project.id)}}">
     <label for="date">Invoice Date:</label><input name="date" type="date" value="{{c.date.strftime("%Y-%m-%d")}}" />
-    <label for="invoice_number">Invoice Number:</label><input name="invoice_number" type="number" id="invoice_number">
+    <label for="invoice_number">Invoice Number:</label><input name="invoice_number" type="number" id="invoice_number" value="{{c.next_invoice_number}}" />
     <label for="tax">Tax:</label><input name="tax" type="number" id="tax" value="0" />%<br />
     <label for="bill_to">Bill To:</label><textarea name="bill_to" id="bill_to"></textarea><br />
     The following timesheets will be included in the invoice:

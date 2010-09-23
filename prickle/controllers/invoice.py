@@ -24,6 +24,7 @@ class InvoiceController(BaseController):
         c.timesheets = Timesheet.for_project(project_name, unbilled=True)
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = c.total_time * c.project.rate
+        c.next_invoice_number = Invoice.next_invoice_number()
         return render("/invoice_form.html")
 
     @validate(schema=InvoiceForm, form='create_form')

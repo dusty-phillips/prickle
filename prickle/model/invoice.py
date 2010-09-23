@@ -45,5 +45,25 @@ class Invoice(Document):
     def load(cls, id, db=invoices):
         return super(Invoice, cls).load(db, id)
 
+    @classmethod
+    def next_invoice_number(cls):
+        return last_invoice_num(invoices).rows[0]['value'] + 1
+
+last_invoice_num = ViewDefinition("last_num", "all", '''\
+    function(doc) {
+        emit(1, parseInt(doc._id));
+    }''',
+    '''\
+    function(keys, values, rereduce) {
+        var max = 0;
+        for (var i in values) {
+            if (values[i] > max) {
+                max = values[i];
+            }
+        }
+        return max;
+    }''')
+last_invoice_num.sync(invoices)
 Invoice._all_invoices.sync(invoices)
 Invoice._by_project.sync(invoices)
+

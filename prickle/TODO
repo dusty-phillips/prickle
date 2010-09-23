@@ -6,5 +6,4 @@
 * split templates into folders
 * Show total, tax calculation on the show timesheets for invoice page
     * this entails putting some of that stuff in the model.
-* show invoice list on project page
 * month navigation

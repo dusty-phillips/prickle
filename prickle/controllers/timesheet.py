@@ -58,7 +58,7 @@ class TimesheetController(BaseController):
     def project(self, id):
         c.project = Project.load_or_create(id)
         c.timesheets = Timesheet.for_project(id, unbilled=True)
-        c.title = "Unbilled timesheets for %s" % id
+        c.title = "Project Summary for %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoices = Invoice.for_project(id)

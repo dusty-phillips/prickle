@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{c.title}}</h2>
+<a href="/timesheet/month/{{h.previous_month(c.date).strftime("%Y/%m")}}">Previous Month</a>
+<a href="/timesheet/month/{{h.next_month(c.date).strftime("%Y/%m")}}">Next Month</a>
+{% include "/timesheet_table.html" %}
+{% endblock %}

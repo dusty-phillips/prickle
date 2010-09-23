@@ -49,11 +49,12 @@ class TimesheetController(BaseController):
         return render('/timeform.html')
 
     def month(self, year, month):
-        c.title = "Timesheet summary for %s" % month, year
+        c.date = datetime.date(int(year), int(month), 1)
+        c.title = "Timesheet summary for %s" % c.date.strftime("%B, %Y")
         c.timesheets = Timesheet.for_month(year, month)
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
-        return render('/timesheet_summary.html')
+        return render('/month_summary.html')
     
     def project(self, id):
         c.project = Project.load_or_create(id)

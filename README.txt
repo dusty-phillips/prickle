@@ -1,21 +1,102 @@
-This is a simple time tracking app inspired by Freckle. Currently it just logs times for a given day, without so much as a total. Its primary purpose is for me to study Pylons and CouchDB, so I doubt it's of much interest to you. It doesn't even support user auth.
+Prickle is a simple time tracking app inspired by Freckle. It is intended to
+be run in a local one-user setup (there's no auth or user management). It is
+pretty intuitive and answers important questions like "how much money did I
+make today", and "how many hours did I bill for this project" quickly and
+easily. It also handles basic invoicing.
+
+Preparation
+============
+Make sure these apps are available on your system:
+  python
+  virtualenv
+  couchdb
+
+On Arch Linux, do:
+  sudo pacman -S python python-virtualenv couchdb 
+
+All other deps should be pulled into the virtualenv in the install process.
+
+Ensure couchdb is running:
+  sudo /etc/rc.d/couchdb start
 
 Installation and Setup
 ======================
+1. Clone the git repo:
+    git clone git://github.com/buchuki/prickle.git
 
+2. change into the new repository:
+    cd prickle
 
-Ok, these are generic instructions, as a placeholder. The proper setup procedure will require creating a virtual environment, git cloning something, and installing a bunch of stuff from a pip requirements file or something.
+3. If you don't like living on the edge, select the release tag:
+    git checkout v0.1
 
-Install ``prickle`` using easy_install::
+4. create a virtualenv:
+    virtualenv --no-site-packages --distribute env
 
-    easy_install prickle
+5. activate the virtualenv:
+    source env/bin/activate
 
-Make a config file as follows::
+6. install the dependencies:
+    pip install -r requirements.txt
 
-    paster make-config prickle config.ini
+7. set up the egg links:
+    python setup.py develop
 
-Tweak the config file as appropriate and then setup the application::
+8. Optionally edit production.ini to suit your needs. There is one custom setting in here, couchdb_prefix that is used in naming couchdb databases.
 
-    paster setup-app config.ini
+9. Run the server:
+    paster serve --reload production.ini
 
-Then you are ready to go.
+Usage
+=====
+Visit http://localhost:5000/ in your web browser. You should probably use a
+Webkit browser; I developed Prickle on Chromium, and it kind of expects that
+the webkit html5 widgets are available. Try it in Firefox 4 if you prefer!
+
+Prickle's primary purpose is time tracking. Select a date, enter a time, enter a project name, enter a description, and log it. It's that simple.
+
+Actually, it's simpler. The time entry field has some extra validation. It
+expects data in the form HH:MM to represent the number of hours and minutes you
+spent on a given project. However, if it doesn't get a HH:MM format it will
+typically do The Right Thing. Decimals such as 1.75 convert to hours and
+minutes such as 1:45. Low integers such as 1 or 2 convert to hours such as 1:00
+or 2:00. High integers such as 15 or 30 convert to minutes such as 00:15 or
+00:30.
+
+The project field features autocomplete and remembers every project you've used
+before. Just type a few letters, notice when your project is selected, and
+press tab to the next field.
+
+The description is freeform. Say whatever you want. You don't have to click the log it button. Just press enter.
+
+To log half an hour these ar ethe keypresses required:
+ * time is autofocused on page load.
+ * type 30<tab>
+ * type pro<tab> to autocomplete a project named project (if you had one ;)
+ * type a description<enter> 
+ * Done
+
+The calendar on the right allows you to navigate through dates to see what
+items you logged on previous days. The log it form is displayed on each of
+these pages, with the correct date selected, so it's easy to log forgotten
+hours for previous days. Some browsers will know how to add a date selector to
+the widget as well.
+
+The dashborad page includes a summary of all the time you have logged that has
+not yet been invoiced yet. It provides a summary of the number of hours and
+your rate for that project. It provides links to see summaries of specific days
+or specific projects.
+
+Click on the link for your newly created project. Then click the "edit" link to
+set a project rate. This is the amount of money you bill per hour for that
+project. Go back to the dashboard and notice how your unbilled time now has a rate and total applied. If you have multiple lines it will also tell you the total a top and bottom of the table.
+
+There is a month view (click "This Month" in the menu) to see your time entries for a given month. You can see at a glance how much you billed for each month. There is also a per-project view that summarizes the uninvoiced hours. Navigating between these pages is normally trivial because there are links to them in the tables. But you can also use the menus.
+
+The last feature is invoicing. This was mostly written past my betime, so it may not be fully working yet. ;-) Go to the project page for a given project and click create invoice.
+
+This creates a simple invoice for you. Select the invoice date, enter an invoice number (this must be a unique integer. Prickle will try to guess the next available number and enter it for you, but double check it). Optionally enter a tax rate. Enter a billing address in the bill to box. Click create.
+
+This will take you to an invoice page and pops up a print dialog. Please edit the templates/invoic.html to make this more suitable to your use. ;-) It's an html page, but uses inches for sizing so it is suitable for print based pages.
+
+More importantly, when you create an invoice, uninvoiced hours for that project are converted to billed hours, and your dashboard and project views will be reset. Further, there are links to the invoice on the project pages so you can review old invoices and the timesheets associated with them. The invoices menu on the top page also gives a good summary.

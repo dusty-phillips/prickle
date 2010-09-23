@@ -1,5 +1,6 @@
 * ability to edit timeslots (change time, description)
-* ability to delete timeslots, projects
+* ability to delete timeslots
 * replace formencode with flatland, toscawidgets, validino... SOMETHING
-* consider that tax name may vary (GST, HST)
+    * maybe just use enforced client side validation
+* consider that tax name may vary (GST, HST) on invoice
 * split templates into folders

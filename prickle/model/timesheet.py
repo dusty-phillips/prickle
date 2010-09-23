@@ -3,6 +3,7 @@ import datetime
 import couchdb
 from couchdb.mapping import Document, DateField, TextField, DecimalField, ViewField
 from couchdb.design import ViewDefinition
+from prickle.model.invoice import Invoice
 
 
 couch = couchdb.Server()
@@ -88,6 +89,9 @@ class Timesheet(Document):
     @property
     def rate(self):
         project = Project.load(self.project)
+        if self.invoice:
+            invoice = Invoice.load(self.invoice)
+            return invoice.rate
         if project:
             return project.rate
         return 0 

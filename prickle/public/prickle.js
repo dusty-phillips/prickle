@@ -12,7 +12,7 @@ function parse_duration(value) {
      *
      * Converts the value to formated as hh:mm
      */
-    parsable = /^[0-9]+[:.]?[0-9]*$/;
+    parsable = /^[0-9]*[:.]?[0-9]*$/;
     if (value == '') {
         return '';
     }
@@ -21,12 +21,21 @@ function parse_duration(value) {
     }
     if (/:/.test(value)) {
         // Assume if it's got a colon, it's correct
-        return value; 
+        var splitted = value.split(':');
+        var hours = splitted[0];
+        if (!hours) {
+            hours = "0";
+        }
+        minutes = splitted[1];
+        return hours + ":" + minutes; 
     }
     if(/\./.test(value)) {
         // Convert Decimal to hours:minutes
         var splitted = value.split('.');
         var hours = splitted[0];
+        if (!hours) {
+            hours = "0";
+        }
         var minutes = "" + Math.round(parseFloat('0.' + splitted[1]) * 60);
         if (minutes.length == 1) minutes = "0" + minutes;
         return hours + ":" + minutes;

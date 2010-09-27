@@ -25,7 +25,7 @@ class Invoice(Document):
 
     _all_invoices = ViewField('invoices', '''\
             function(doc) {
-                emit(doc.id, doc);
+                emit(doc.date, doc);
             }''')
     _by_project = ViewField('by_project', '''\
             function(doc) {
@@ -38,7 +38,7 @@ class Invoice(Document):
 
     @classmethod
     def all_invoices(cls):
-        return cls._all_invoices(invoices)
+        return cls._all_invoices(invoices, descending=True)
 
     @classmethod
     def for_project(cls, project):

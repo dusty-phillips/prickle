@@ -101,9 +101,9 @@
             </tr>
             <tr>
                 <td>{{c.project.id}}</td>
-                <td>{{c.total_time}}</td>
+                <td>{{"%.2f" % (c.total_time)}}</td>
                 <td>${{"%.2f" % (c.project.rate)}}</td>
-                <td>${{c.total_fee}}</td>
+                <td>${{"%.2f" % (c.total_fee)}}</td>
             </tr>
             {% if c.invoice.tax %}
                 <tr>

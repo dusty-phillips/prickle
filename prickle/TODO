@@ -1,8 +1,0 @@
-* invoice timesheets view should summarize invoice and include a link
-    to print invoice
-* ability to edit timeslots (change time, description)
-* ability to delete timeslots
-* replace formencode with flatland, toscawidgets, validino... SOMETHING
-    * maybe just use enforced client side validation
-* consider that tax name may vary (GST, HST) on invoice
-* split templates into folders

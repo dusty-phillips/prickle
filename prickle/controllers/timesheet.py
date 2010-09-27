@@ -81,12 +81,3 @@ class TimesheetController(BaseController):
         c.invoices = Invoice.for_project(id)
         return render('/project_summary.html')
 
-    def invoice(self, id):
-        c.timesheets = Timesheet.for_invoice(id)
-        c.title = "Timesheets for Invoice %s" % id
-        c.total_time = sum(t.duration for t in c.timesheets)
-        c.total_fee = sum(t.fee for t in c.timesheets)
-        c.invoice = Invoice.load(id)
-        c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
-        c.after_taxes = c.total_fee + c.taxes
-        return render('/timesheet_summary.html')

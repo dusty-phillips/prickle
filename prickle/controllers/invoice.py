@@ -68,3 +68,13 @@ class InvoiceController(BaseController):
     def list(self):
         c.invoices = Invoice.all_invoices()
         return render("/invoice_list.html")
+
+    def summary(self, id):
+        c.timesheets = Timesheet.for_invoice(id)
+        c.title = "Invoice %s" % id
+        c.total_time = sum(t.duration for t in c.timesheets)
+        c.total_fee = sum(t.fee for t in c.timesheets)
+        c.invoice = Invoice.load(id)
+        c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
+        c.after_taxes = c.total_fee + c.taxes
+        return render('/invoice_summary.html')

@@ -11,7 +11,7 @@
             <a href="{{h.url(controller="timesheet", action="project", id=invoice.project)}}">{{invoice.project}}</a>
         </td>
         <td>
-            <a href="{{h.url(controller="timesheet", action="invoice", id=invoice.id)}}">Timesheets</a>
+            <a href="{{h.url(controller="invoice", action="summary", id=invoice.id)}}">Timesheets</a>
         </td>
     </tr>
     {% endfor %}

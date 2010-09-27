@@ -51,7 +51,7 @@ class InvoiceController(BaseController):
         for timesheet in timesheets:
             timesheet.invoice = invoice.id
             timesheet.store()
-        return redirect(url(controller="invoice", action="view",
+        return redirect(url(controller="invoice", action="summary",
             id=invoice.id))
 
     def view(self, id):

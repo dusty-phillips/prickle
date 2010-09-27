@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{c.title}}</h2>
-<strong>Invoice #</strong>{{c.invoice._id}}<br />
+<a href="{{h.url(controller="invoice", action="view", id=c.invoice.id)}}">Print Invoice</a><br />
+<strong>Invoice #</strong>{{c.invoice.id}}<br />
 <strong>Date:</strong> {{c.invoice.date.strftime("%B %d, %Y")}}<br />
 <strong>Bill To:</strong><br />
 {{h.nl2br(c.invoice.bill_to)}}

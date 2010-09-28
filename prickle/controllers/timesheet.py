@@ -11,7 +11,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project
+from prickle.model.timesheet import Timesheet, Project, timesheets
 from prickle.model.invoice import Invoice
 
 
@@ -27,6 +27,7 @@ class TimesheetController(BaseController):
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.project_list = Project.project_list()
         c.date = datetime.date.today()
+        c.delete_column = True
         return render('/timeform.html')
 
     @validate(schema=TimesheetForm, form='index')
@@ -41,6 +42,11 @@ class TimesheetController(BaseController):
         if not path:
             path = url(controller="timesheet", action="index")
         return redirect(path)
+
+    def delete(self, id):
+        timesheet = Timesheet.load(id)
+        timesheets.delete(timesheet)
+        return "deleted"
 
     def date(self, date):
         c.title = "Log Time for %s" % date
@@ -80,4 +86,5 @@ class TimesheetController(BaseController):
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoices = Invoice.for_project(id)
         return render('/project_summary.html')
+
 

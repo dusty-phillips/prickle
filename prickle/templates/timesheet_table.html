@@ -2,20 +2,29 @@
     <tr>
         <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th>
     </tr>
-    {% if c.total_time %}
-    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td></tr>
+    {% if c.total_time and timesheets|length > 10 %}
+    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}</tr>
     {% endif %}
     {% for timesheet in c.timesheets %}
-        <tr>
+    <tr id="timesheet_row_{{timesheet.id}}">
             <td class="date"><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
             <td>{{"%.2f"|format(timesheet.duration)}}</td>
             <td>${{"%.2f"|format(timesheet.rate)}}</td>
             <td>${{"%.2f"|format(timesheet.fee)}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
             <td class="description">{{timesheet.description}}</td>
+            {% if c.delete_column %}
+            <td>
+            {% if not timesheet.invoice %}
+            <button class="delete_button" onclick="delete_timesheet('{{timesheet.id}}');">Delete</button>
+            {% endif %}
+            </td>
+            {% endif %}
         </tr>
     {% endfor %}
     {% if c.total_time %}
-    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td></tr>
+    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}</tr>
     {% endif %}
 </table>
+<script type="text/javascript">
+</script>

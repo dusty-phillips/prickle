@@ -71,6 +71,22 @@ function quick_error(value) {
     $('#error_message').html(value);
     $('#error_message').fadeIn('fast').delay(8000).fadeOut('slow');
 }
+
+function delete_timesheet(id) {
+    $.post('/timesheet/delete/' + id, {}, function(data, textStatus, xhr) {
+        /* some kinda fragile magic numbers here. Before removing the lineitem, update the totals */
+        var time = parseFloat($('#timesheet_row_' + id).children(":eq(1)").html());
+        var total_time = parseFloat($('tr.total').children(":eq(1)").html());
+        total_time -= time;
+        $('tr.total').children(":eq(1)").html(total_time.toFixed(2));
+        var duration = parseFloat($('#timesheet_row_' + id).children(":eq(3)").html().substring(1));
+        var total_duration = parseFloat($('tr.total').children(":eq(3)").html().substring(1));
+        total_duration -= duration;
+        $('tr.total').children(":eq(3)").html('$' + total_duration.toFixed(2));
+        $('#timesheet_row_' + id).fadeOut();
+    });
+}
+
 /*
  * jQuery UI Autocomplete Select First Extension
  *

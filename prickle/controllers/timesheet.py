@@ -65,6 +65,7 @@ class TimesheetController(BaseController):
         c.timesheets = Timesheet.for_month(year, month)
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
+        c.invoice_column = True
         #FIXME: I'm really tired and suspect this is not the right way to do this
         project_summary = defaultdict(dict) 
         for timesheet in c.timesheets:

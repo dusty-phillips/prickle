@@ -61,6 +61,10 @@ class Timesheet(Document):
             }''')
 
     @classmethod
+    def load(cls, id, db=timesheets):
+        return super(Timesheet, cls).load(db, id)
+
+    @classmethod
     def all_timesheets(cls, unbilled=False):
         if not unbilled:
             return cls._all_timesheets(timesheets)

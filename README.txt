@@ -100,3 +100,6 @@ This creates a simple invoice for you. Select the invoice date, enter an invoice
 This will take you to an invoice page and pops up a print dialog. Please edit the templates/invoic.html to make this more suitable to your use. ;-) It's an html page, but uses inches for sizing so it is suitable for print based pages.
 
 More importantly, when you create an invoice, uninvoiced hours for that project are converted to billed hours, and your dashboard and project views will be reset. Further, there are links to the invoice on the project pages so you can review old invoices and the timesheets associated with them. The invoices menu on the top page also gives a good summary.
+
+Dusty Phillips
+dusty@archlinux.ca

@@ -10,7 +10,7 @@
             <a href="/">Dashboard</a>
             <a href="{{url(controller="projects", action="list")}}">Projects</a>
             <a href="{{url(controller="invoice", action="list")}}">Invoices</a>
-            <a href="{{h.url(controller="timesheet", action="month", month=h.datetime.date.today().strftime('%m'), year=h.datetime.date.today().strftime('%Y'))}}">This Month</a></td>
+            <a href="{{h.url(controller="timesheet", action="month", month=h.datetime.date.today().strftime('%m'), year=h.datetime.date.today().strftime('%Y'))}}">This Month</a>
         </div>
         {% block content %}
         {% endblock %}

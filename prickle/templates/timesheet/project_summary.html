@@ -5,10 +5,10 @@ Project Rate: ${{c.project.rate}} (<a href="{{url(controller="projects", action=
 <a href="{{url(controller="invoice", action="create_form", id=c.project.id)}}">Create Invoice</a>
 {% if c.timesheets %}
 <h3>Unbilled timesheets for {{c.project.id}}</h3>
-{% include "/timesheet_table.html" %}
+{% include "/timesheet/timesheet_table.html" %}
 {% endif %}
 {% if c.invoices %}
 <h3>Invoices</h3>
-{% include "/invoice_table.html" %}
+{% include "/invoice/invoice_table.html" %}
 {% endif %}
 {% endblock %}

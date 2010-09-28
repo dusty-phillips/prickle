@@ -46,7 +46,7 @@ class TimesheetController(BaseController):
         c.project_list = Project.project_list()
         c.date = datetime.date.today()
         c.delete_column = True
-        return render('/timeform.html')
+        return render('/timesheet/timeform.html')
 
     @validate(schema=TimesheetForm, form='index')
     def logit(self):
@@ -75,7 +75,7 @@ class TimesheetController(BaseController):
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         c.project_list = Project.project_list()
-        return render('/timeform.html')
+        return render('/timesheet/timeform.html')
 
     def month(self, year, month):
         c.date = datetime.date(int(year), int(month), 1)
@@ -95,7 +95,7 @@ class TimesheetController(BaseController):
                             'fee', 0) + timesheet.fee
 
         c.project_summary = project_summary
-        return render('/month_summary.html')
+        return render('/timesheet/month_summary.html')
     
     def project(self, id):
         c.project = Project.load_or_create(id)
@@ -104,6 +104,6 @@ class TimesheetController(BaseController):
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoices = Invoice.for_project(id)
-        return render('/project_summary.html')
+        return render('/timesheet/project_summary.html')
 
 

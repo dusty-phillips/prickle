@@ -35,12 +35,12 @@ class ProjectsController(BaseController):
 
     def list(self):
         c.projects = Project.project_list()
-        return render('/project_list.html')
+        return render('/project/project_list.html')
 
     def view(self, id):
         project = Project.load_or_create(id)
         c.project = project
-        return render('/project_form.html')
+        return render('/project/project_form.html')
 
     @validate(schema=ProjectForm, form='view')
     def edit(self, id):

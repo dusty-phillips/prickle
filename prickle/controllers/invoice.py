@@ -46,7 +46,7 @@ class InvoiceController(BaseController):
         previous_invoices = Invoice.for_project(project_name)
         if previous_invoices.rows:
             c.bill_to = previous_invoices.rows[-1].bill_to
-        return render("/invoice_form.html")
+        return render("/invoice/invoice_form.html")
 
     @validate(schema=InvoiceForm, form='create_form')
     def create(self, id):
@@ -81,11 +81,11 @@ class InvoiceController(BaseController):
         c.total_fee = c.total_time * invoice.rate
         c.taxes = c.total_fee * invoice.tax * Decimal("0.01")
         c.after_taxes = c.total_fee + c.taxes
-        return render("/invoice.html")
+        return render("/invoice/invoice.html")
 
     def list(self):
         c.invoices = Invoice.all_invoices()
-        return render("/invoice_list.html")
+        return render("/invoice/invoice_list.html")
 
     def summary(self, id):
         c.timesheets = Timesheet.for_invoice(id)
@@ -95,4 +95,4 @@ class InvoiceController(BaseController):
         c.invoice = Invoice.load(id)
         c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
         c.after_taxes = c.total_fee + c.taxes
-        return render('/invoice_summary.html')
+        return render('/invoice/invoice_summary.html')

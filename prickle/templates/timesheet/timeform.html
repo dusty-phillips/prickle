@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{c.title}}</h2>
-<div id="select_date">
+<div id="sidebar">
+    <div id="timer">
+    </div>
+    <div id="select_date">
+    </div>
 </div>
 <form method="POST" action="/timesheet/logit">
     <input type="hidden" name="next" value="{{request.path}}" />
@@ -23,25 +27,27 @@
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
-    $("#project").autocomplete({
-        source: [
-            {% for project in c.project_list %}
-            "{{project}}"{% if not loop.last %},{% endif %}
-            {% endfor %}
-            ],
-        delay: 0,
-        minLength: 0,
-        selectFirst: true,
-            });
-    setup_duration();
-    $('#select_date').datepicker({
-defaultDate: "{{c.date.strftime("%Y-%m-%d")}}",
-dateFormat: "yy-mm-dd",
-changeMonth: true,
-changeYear: true,
-onSelect: function(dateText, inst) {
-    window.location = "http://" + window.location.host + "/timesheet/date/" + dateText;
-}
-});
+    $(document).ready(function() {
+        $("#project").autocomplete({
+            source: [
+                {% for project in c.project_list %}
+                "{{project}}"{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ],
+            delay: 0,
+            minLength: 0,
+            selectFirst: true,
+                });
+        setup_duration();
+        $('#select_date').datepicker({
+            defaultDate: "{{c.date.strftime("%Y-%m-%d")}}",
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function(dateText, inst) {
+                window.location = "http://" + window.location.host + "/timesheet/date/" + dateText;
+            }
+        });
+    });
 </script>
 {% endblock %}

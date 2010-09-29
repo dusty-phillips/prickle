@@ -92,7 +92,7 @@ input[type=submit] {
     display: none;
     color: #f44;
 }
-#select_date {
+#sidebar {
     float: right;
 }
 /* invoice form */

@@ -39,7 +39,7 @@ class TimesheetForm(formencode.Schema):
     date = DateValidator()
     duration = DurationValidator(not_empty=True)
     project = formencode.validators.String(not_empty=True)
-    description = formencode.validators.String(not_empty=True)
+    description = formencode.validators.String()
 
 class ProjectForm(formencode.Schema):
     rate = DecimalValidator()

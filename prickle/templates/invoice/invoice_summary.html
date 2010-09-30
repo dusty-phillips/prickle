@@ -10,12 +10,11 @@
 {% if c.invoice.tax %}
 <table>
     <tr>
-        <td>HST ({{c.invoice.tax}}%):</td>
+        <th>HST ({{c.invoice.tax}}%):</th>
         <td>${{"%.2f" % c.taxes}}</td>
     </tr>
     <tr>
-        <td></td><td></td>
-        <td>Total:</td>
+        <th>Total:</th>
         <td>${{"%.2f" % c.after_taxes}}</td>
     </tr>
 </table>

@@ -11,11 +11,11 @@
     <div id="select_date">
     </div>
 </div>
-<form method="POST" action="/timesheet/logit">
+<form id="logtimeform" method="POST" action="/timesheet/logit">
     <input type="hidden" name="next" value="{{request.path}}" />
-    <input type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
-    <input type="text" name="duration" id="duration" autofocus placeholder="time" />
-    <input type="text" name="project" id="project" placeholder="project" />
+    <input class="required date" type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
+    <input class="required duration" type="text" name="duration" id="duration" autofocus placeholder="time" />
+    <input class="required" type="text" name="project" id="project" placeholder="project" />
     <input type="text" name="description" id="description" placeholder="description"/>
     <input type="submit" value="Log It" />
     <span id="error_message"></span>
@@ -32,6 +32,11 @@
 {% block scripts %}
 <script type="text/javascript">
     $(document).ready(function() {
+
+        $.validator.addMethod("duration", function(value, element) {
+            return /^[0-9]*[:.]?[0-9]*$/.test(value); 
+        }, "Invalid Time");
+
         $("#project").autocomplete({
             source: [
                 {% for project in c.project_list %}
@@ -43,6 +48,7 @@
             selectFirst: true,
                 });
         setup_duration();
+        $('#logtimeform').validate();
         $('#select_date').datepicker({
             defaultDate: "{{c.date.strftime("%Y-%m-%d")}}",
             dateFormat: "yy-mm-dd",

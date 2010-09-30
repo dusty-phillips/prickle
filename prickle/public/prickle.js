@@ -115,7 +115,7 @@ function format_time_part(time_part) {
 /*
  * It would be nicer, perhaps, if these were incorporated into a jquery plugin.
  */
-timer_seconds = 4200;
+timer_seconds = 0;
 timer_interval_id = null;
 function timer_interval() {
     timer_seconds += 1;

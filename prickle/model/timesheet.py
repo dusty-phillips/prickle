@@ -104,9 +104,11 @@ class Timesheet(Document):
     @classmethod
     def for_project(cls, project, unbilled=False):
         if not unbilled:
-            return cls._by_project(timesheets, key=project)
+            projects = cls._by_project(timesheets, key=project)
         else:
-            return cls._by_project_unbilled(timesheets, key=project)
+            projects = cls._by_project_unbilled(timesheets, key=project)
+
+        return sorted(projects, key=lambda s: s.date, reverse=True)
 
     @classmethod
     def for_invoice(cls, invoice):

@@ -74,18 +74,11 @@ function parse_duration(value) {
 function setup_duration() {
     $('#duration').blur(function() {
         var parsed = parse_duration($('#duration').val());
-        if (parsed == null) {
-            quick_error("Invalid Time");
-        }
-        else {
+        if (parsed != null) {
             $('#duration').val(parsed);
         }
     });
 
-}
-function quick_error(value) {
-    $('#error_message').html(value);
-    $('#error_message').fadeIn('fast').delay(8000).fadeOut('slow');
 }
 
 function delete_timesheet(id) {

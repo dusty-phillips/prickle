@@ -70,6 +70,7 @@ input[type=submit], button {
     width: 55em;
     text-align: center;
     background-color: #eef;
+    color: #dde;
 }
 .nav a {
     font-weight: bold;

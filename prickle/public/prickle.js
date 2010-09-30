@@ -173,3 +173,9 @@ $( ".ui-autocomplete-input" ).live( "autocompleteopen", function() {
 });
 
 }( jQuery ));
+
+/* Additional validators */
+$.validator.addMethod("duration", function(value, element) {
+    return /^[0-9]*[:.]?[0-9]*$/.test(value); 
+    }, "Invalid Time");
+

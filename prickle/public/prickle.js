@@ -105,6 +105,61 @@ function delete_timesheet(id) {
     });
 }
 
+function format_time_part(time_part) {
+    time_part = "" + time_part;
+    if (time_part.length == 1) {
+        time_part = "0" + time_part;
+    }
+    return time_part;
+}
+/*
+ * It would be nicer, perhaps, if these were incorporated into a jquery plugin.
+ */
+timer_seconds = 4200;
+timer_interval_id = null;
+function timer_interval() {
+    timer_seconds += 1;
+    var minutes = Math.floor(timer_seconds / 60);
+    var seconds = format_time_part(timer_seconds % 60);
+    var hours = format_time_part(Math.floor(minutes / 60));
+    minutes = format_time_part(minutes % 60);
+
+    $('#timerlabel').html(hours + ":" + minutes + ":" + seconds);
+}
+function start_timer() {
+    timer_interval_id = window.setInterval(timer_interval, 1000);
+    $('#pause_timer').show();
+    $('#stop_timer').show();
+    $('#start_timer').hide();
+}
+function stop_timer() {
+    var minutes = Math.ceil(timer_seconds / 60);
+    minutes = Math.round(minutes / 15) * 15;
+    var hours = format_time_part(Math.floor(minutes / 60));
+    var minutes = format_time_part("" + minutes % 60);
+    $('#duration').val(hours + ":" + minutes);
+
+    if (timer_interval) {
+        window.clearInterval(timer_interval_id);
+    }
+    timer_seconds = 0;
+    $('#start_timer').show();
+    $('#pause_timer').hide();
+    $('#stop_timer').hide();
+    window.setTimeout(function() {
+        $('#timerlabel').html("00:00:00");
+    }, 2000);
+    $('#project').focus();
+}
+function pause_timer() {
+    if (timer_interval) {
+        window.clearInterval(timer_interval_id);
+    }
+    $('#start_timer').show();
+    $('#pause_timer').hide();
+    $('#stop_timer').hide();
+}
+
 /*
  * jQuery UI Autocomplete Select First Extension
  *

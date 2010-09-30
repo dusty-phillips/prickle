@@ -54,8 +54,8 @@ function parse_duration(value) {
         if (!hours) {
             hours = "0";
         }
-        var minutes = "" + Math.round(parseFloat('0.' + splitted[1]) * 60);
-        if (minutes.length == 1) minutes = "0" + minutes;
+        var minutes = format_time_part(
+                Math.round(parseFloat('0.' + splitted[1]) * 60));
         return hours + ":" + minutes;
     }
     // All integers. If it's a low number, assume hours else minutes
@@ -65,12 +65,10 @@ function parse_duration(value) {
     }
     if (value > 59) {
         var hours = "" + Math.floor(value / 60);
-        var minutes = "" + value % 60;
-        if (minutes.length == 1) minutes = "0" + minutes;
+        var minutes = format_time_part(value % 60);
         return hours + ":" + minutes;
     }
-    minutes = value;
-    if (minutes.length == 1) minutes = "0" + minutes; //FIXME: tired of yyp
+    minutes = format_time_part(value);
     return "00:" + minutes;
 }
 function setup_duration() {

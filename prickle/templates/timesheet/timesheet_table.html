@@ -19,7 +19,11 @@
             {% if c.invoice_column %}
             <td>
                 {% if timesheet.invoice %}
-                <a href="{{h.url(controller="invoice", action="summary", id=timesheet.invoice)}}">{{timesheet.invoice}}</a>
+                    {% if timesheet.invoice == "no invoice" %}
+                        No Invoice
+                    {% else %}
+                        <a href="{{h.url(controller="invoice", action="summary", id=timesheet.invoice)}}">{{timesheet.invoice}}</a>
+                    {% endif %}
                 {% endif %}
             </td>
             {% endif %}

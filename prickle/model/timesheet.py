@@ -121,7 +121,7 @@ class Timesheet(Document):
         project = Project.load(self.project)
         if self.invoice:
             invoice = Invoice.load(self.invoice)
-            if invoice:
+            if invoice and invoice.rate:
                 return invoice.rate
         if project:
             return project.rate

@@ -72,6 +72,25 @@ class InvoiceController(BaseController):
         return redirect(url(controller="invoice", action="summary",
             id=invoice.id))
 
+    def mark_billed(self, id):
+        '''Sometimes we want to record timesheets as invoiced
+        without creating an invoice (ie: to clear out unbilled
+        stuff or because it was invoiced in another application.
+
+        We do this by attaching those timesheets to a single
+        invoice named 'no invoice'.'''
+        project_name = id
+        invoice = Invoice.load("no invoice")
+        if not invoice:
+            invoice = Invoice(id="no invoice")
+            invoice.store()
+
+        timesheets = Timesheet.for_project(project_name, unbilled=True)
+        for timesheet in timesheets:
+            timesheet.invoice = invoice.id
+            timesheet.store()
+        return redirect(url(controller="timesheet", action="index"))
+
     def view(self, id):
         invoice = Invoice.load(id)
         c.invoice = invoice

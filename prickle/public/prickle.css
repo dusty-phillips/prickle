@@ -47,13 +47,13 @@ tr.total td {
     border-bottom-color: #dde;
     background-color: #eee;
 }
-input {
+input, button {
     border-color: #dde;
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
 }
-input[type=submit] {
+input[type=submit], button {
     background-color: #eef;
     padding: 3px 12px;
     color: #69e;
@@ -94,6 +94,23 @@ input[type=submit] {
 }
 #sidebar {
     float: right;
+}
+/* timer */
+#timer {
+    margin-left: 2em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+#timerlabel {
+    font-size: 3em;
+    font-weight: bold;
+    color: #dde;
+}
+#stop_timer {
+    display: none;
+}
+#pause_timer {
+    display: none;
 }
 /* invoice form */
 #bill_to {

@@ -89,6 +89,9 @@ input[type=submit], button {
 #description {
     width: 30ex;
 }
+.error {
+    color: #f44;
+}
 #sidebar {
     float: right;
 }

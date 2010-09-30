@@ -112,7 +112,8 @@ class Timesheet(Document):
 
     @classmethod
     def for_invoice(cls, invoice):
-        return cls._by_invoice(timesheets, key=invoice)
+        return sorted(cls._by_invoice(timesheets, key=invoice),
+                key=lambda s: s.date, reverse=True)
 
     def store(self, db=timesheets):
         # default database

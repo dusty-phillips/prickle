@@ -43,11 +43,15 @@ class Invoice(Document):
 
     _all_invoices = ViewField('invoices', '''\
             function(doc) {
-                emit(doc.date, doc);
+                if (doc._id != "no invoice") {
+                    emit(doc.date, doc);
+                }
             }''')
     _by_project = ViewField('by_project', '''\
             function(doc) {
-                emit(doc.project, doc);
+                if (doc._id != "no invoice") {
+                    emit(doc.project, doc);
+                }
             }''')
 
     def store(self, db=invoices):

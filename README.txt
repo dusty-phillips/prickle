@@ -28,7 +28,7 @@ Installation and Setup
     cd prickle
 
 3. If you don't like living on the edge, select the release tag:
-    git checkout v0.1
+    git checkout v0.2
 
 4. create a virtualenv:
     virtualenv --no-site-packages --distribute env

@@ -160,6 +160,17 @@ class Project(Document):
             project = cls(id)
         return project
 
+class ProjectType(Document):
+    project = TextField()
+    type = TextField()
+    rate = DecimalField(default=0)
+
+    @classmethod
+    def type_list(cls, project):
+        '''List all the types associated with timesheets for a given project'''
+        return [t.key[1] for t in type_names(timesheets, group=True, 
+            startkey=[project], endkey=[project, {}], inclusive_end=True)]
+
 project_names = ViewDefinition("projects", "all", '''\
     function(doc) {
         if (doc.project) {
@@ -170,8 +181,18 @@ project_names = ViewDefinition("projects", "all", '''\
     function(keys, values, rereduce) {
         return sum(values);
     }''')
+type_names = ViewDefinition("types", "by_project", '''\
+    function(doc) {
+        if (doc.project) {
+            emit([doc.project, doc.type || ''], 1);
+        }
+    }''',
+    '''function(keys, values, rereduce) {
+            return sum(values);
+    }''')
 
 project_names.sync(timesheets)
+type_names.sync(timesheets)
 Timesheet._all_timesheets.sync(timesheets)
 Timesheet._by_date.sync(timesheets)
 Timesheet._by_invoice.sync(timesheets)

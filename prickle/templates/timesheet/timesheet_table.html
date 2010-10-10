@@ -1,6 +1,6 @@
 <table class="timesheets">
     <tr>
-        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Description</th>
+        <th>Date</th><th>Duration</th><th>Rate</th><th>Fee</th><th>Project</th><th>Type</th><th>Description</th>
         {% if c.invoice_column %}
         <th>Invoice</th>
         {% endif %}
@@ -15,6 +15,7 @@
             <td>${{"%.2f"|format(timesheet.rate)}}</td>
             <td>${{"%.2f"|format(timesheet.fee)}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
+            <td>{{timesheet.type}}</td>
             <td class="description">{{timesheet.description}}</td>
             {% if c.invoice_column %}
             <td>
@@ -37,6 +38,6 @@
         </tr>
     {% endfor %}
     {% if c.total_time %}
-    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}</tr>
+    <tr class="total"><td></td><td>{{"%.2f" % c.total_time}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}</tr>
     {% endif %}
 </table>

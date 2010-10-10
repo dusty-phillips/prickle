@@ -44,6 +44,19 @@
             minLength: 0,
             selectFirst: true,
                 });
+        $("#type").autocomplete({
+            source: ["one", "two", "three"],
+            delay: 0,
+            minLength: 0,
+            selectFirst: true,
+            });
+        $("#project").blur(function() {
+            $.get("/timesheet/types_for_project/" + $("#project").val(), {},
+                function(data, textStatus, xhr) {
+                    $("#type").autocomplete("option", "source", data);
+                    },
+                    "json");
+            });
         setup_duration();
         $('#logtimeform').validate();
         $('#select_date').datepicker({

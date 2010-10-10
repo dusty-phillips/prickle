@@ -18,6 +18,7 @@
 
 import logging
 import datetime
+import json
 from collections import defaultdict
 from decimal import Decimal
 
@@ -29,7 +30,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project, timesheets
+from prickle.model.timesheet import Timesheet, Project, ProjectType, timesheets
 from prickle.model.invoice import Invoice
 
 
@@ -106,5 +107,10 @@ class TimesheetController(BaseController):
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoices = Invoice.for_project(id)
         return render('/timesheet/project_summary.html')
+
+    def types_for_project(self, id):
+        print id
+        print ProjectType.type_list(id)
+        return json.dumps(ProjectType.type_list(id))
 
 

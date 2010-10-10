@@ -8,6 +8,12 @@ Project Rate: ${{c.project.rate}} <a href="{{url(controller="projects", action="
     <h3>Unbilled timesheets for {{c.project.id}}</h3>
     {% include "/timesheet/timesheet_table.html" %}
 {% endif %}
+<h3>Work Types</h3>
+<ul>
+    {% for type in c.project.project_types %}
+    <li>{{type or "[None]"}}</li>
+    {% endfor %}
+</ul>
 {% if c.invoices %}
 <h3>Invoices</h3>
 {% include "/invoice/invoice_table.html" %}

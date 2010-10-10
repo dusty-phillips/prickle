@@ -142,6 +142,10 @@ class Project(Document):
         # default database
         super(Project, self).store(db)
 
+    @property
+    def project_types(self):
+        return ProjectType.type_list(self.id)
+
     @classmethod
     def project_list(cls):
         # Note that this is getting project names from the timesheet

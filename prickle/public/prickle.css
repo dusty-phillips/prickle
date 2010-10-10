@@ -80,14 +80,20 @@ input[type=submit], button {
     text-decoration: none;
 }
 /* logit form */
+input[type=date] {
+    width: 7em;
+}
 #duration {
     width: 6ex;
 }
 #project {
-    width: 20ex;
+    width: 12ex;
+}
+#type {
+    width: 12ex;
 }
 #description {
-    width: 30ex;
+    width: 25ex;
 }
 .error {
     color: #f44;

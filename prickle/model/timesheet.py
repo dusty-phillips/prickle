@@ -45,6 +45,7 @@ class Timesheet(Document):
     date = DateField()
     duration = DecimalField()
     project = TextField()
+    type = TextField(default='')
     description = TextField()
     invoice = TextField(default='')
     _all_timesheets = ViewField('timesheets', '''\

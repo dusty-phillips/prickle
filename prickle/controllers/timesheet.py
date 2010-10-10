@@ -54,6 +54,7 @@ class TimesheetController(BaseController):
                 date=self.form_result['date'],
                 duration=self.form_result['duration'],
                 project=self.form_result['project'],
+                type=self.form_result['type'],
                 description=self.form_result['description'])
         timesheet.store()
         path = request.params.get('next')

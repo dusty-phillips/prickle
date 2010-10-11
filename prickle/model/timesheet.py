@@ -30,6 +30,7 @@ couch = couchdb.Server()
 
 TIMESHEET_DB = prefix + "timesheets"
 PROJECT_DB = prefix + "projects"
+TYPE_DB = prefix + "project_types"
 
 try:
     timesheets = couch[TIMESHEET_DB]
@@ -40,6 +41,11 @@ try:
     projects = couch[PROJECT_DB]
 except couchdb.http.ResourceNotFound:
     projects = couch.create(PROJECT_DB)
+
+try:
+    project_types = couch[TYPE_DB]
+except couchdb.http.ResourceNotFound:
+    project_types = couch.create(TYPE_DB)
 
 class Timesheet(Document):
     date = DateField()
@@ -144,7 +150,8 @@ class Project(Document):
 
     @property
     def project_types(self):
-        return ProjectType.type_list(self.id)
+        type_names = ProjectType.type_list(self.id)
+
 
     @classmethod
     def project_list(cls):
@@ -169,11 +176,23 @@ class ProjectType(Document):
     type = TextField()
     rate = DecimalField(default=0)
 
+    _by_project_type = ViewField('by_project_type', '''\
+            function(doc) {
+                    emit([doc.project, doc.type], doc);
+            }''')
+
     @classmethod
     def type_list(cls, project):
         '''List all the types associated with timesheets for a given project'''
         return [t.key[1] for t in type_names(timesheets, group=True, 
             startkey=[project], endkey=[project, {}], inclusive_end=True)]
+
+    @classmethod
+    def load_or_create(cls, project, type):
+        project_type = cls._by_project_type(project_types, key=[project, type])
+        if project_type:
+            return project_type.rows[0]
+        return cls(project=project, type=type)
 
 project_names = ViewDefinition("projects", "all", '''\
     function(doc) {
@@ -203,3 +222,4 @@ Timesheet._by_invoice.sync(timesheets)
 Timesheet._by_project.sync(timesheets)
 Timesheet._by_project_unbilled.sync(timesheets)
 Timesheet._by_date_unbilled.sync(timesheets)
+ProjectType._by_project_type.sync(project_types)

@@ -53,7 +53,7 @@ input, button {
     border-style: solid;
     border-radius: 4px;
 }
-input[type=submit], button {
+input[type=submit], button, a.button {
     background-color: #eef;
     padding: 3px 12px;
     color: #69e;
@@ -135,4 +135,14 @@ a {
 }
 a:hover {
     text-decoration: underline;
+}
+/* project summary types */
+.set_rate {
+    color: #69e;
+}
+.inherited_rate {
+    color: #aaa;
+}
+form.edit_type {
+    display: inline;
 }

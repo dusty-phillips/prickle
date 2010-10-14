@@ -109,8 +109,6 @@ class TimesheetController(BaseController):
         return render('/timesheet/project_summary.html')
 
     def types_for_project(self, id):
-        print id
-        print ProjectType.type_list(id)
         return json.dumps(ProjectType.type_list(id))
 
 

@@ -150,8 +150,8 @@ class Project(Document):
 
     @property
     def project_types(self):
-        return ProjectType.type_list(self.id)
-
+        return [ProjectType.load_or_create(self.id, t
+            ) for t in ProjectType.type_list(self.id)]
 
     @classmethod
     def project_list(cls):
@@ -186,6 +186,10 @@ class ProjectType(Document):
         '''List all the types associated with timesheets for a given project'''
         return [t.key[1] for t in type_names(timesheets, group=True, 
             startkey=[project], endkey=[project, {}], inclusive_end=True)]
+
+    def store(self, db=project_types):
+        # default database
+        super(ProjectType, self).store(db)
 
     @classmethod
     def load_or_create(cls, project, type):

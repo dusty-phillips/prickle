@@ -26,8 +26,8 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project
-from prickle.forms.timesheet import ProjectForm
+from prickle.model.timesheet import Timesheet, Project, ProjectType
+from prickle.forms.timesheet import RateForm
 
 log = logging.getLogger(__name__)
 
@@ -42,9 +42,17 @@ class ProjectsController(BaseController):
         c.project = project
         return render('/project/project_form.html')
 
-    @validate(schema=ProjectForm, form='view')
+    @validate(schema=RateForm, form='view')
     def edit(self, id):
         project = Project.load_or_create(id)
         project.rate = self.form_result['rate']
         project.store()
         return redirect(url(controller="timesheet", action="index"))
+
+    @validate(schema=RateForm, form='view')
+    def type_rate(self, project, type):
+        project_type = ProjectType.load_or_create(project, type)
+        project_type.rate = self.form_result['rate']
+        project_type.store()
+        return redirect(url(controller="timesheet", action="project",
+            id=project))

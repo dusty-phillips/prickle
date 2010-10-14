@@ -42,7 +42,7 @@ class TimesheetForm(formencode.Schema):
     type = formencode.validators.String()
     description = formencode.validators.String()
 
-class ProjectForm(formencode.Schema):
+class RateForm(formencode.Schema):
     rate = DecimalValidator()
 
 class InvoiceForm(formencode.Schema):

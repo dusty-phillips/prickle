@@ -11,18 +11,18 @@ Project Rate: ${{c.project.rate}} <a href="{{url(controller="projects", action="
 <h3>Work Types</h3>
 <ul>
     {% for type in c.project.project_types %}
-    <li>{{type or "[None]"}}: 
+    <li>{{type.type or "[None]"}}: 
         {% if type.rate %}
             <span class="set_rate">${{type.rate}}</span>
         {% else %}
             <span class="inherited_rate">${{c.project.rate}}</span>
         {% endif %}
-        <span id="edit_type_{{type}}">
-            <a class="edit_button" href="javascript: $('#edit_type_{{type}} .edit_button').hide(); $('#edit_type_{{type}} form').show(); void(0)">Edit</a>
-            <form method="post" action="{{url(controller='projects', action='type_rate', project=c.project.id, type=type)}}" class="edit_type" style="display: none">
+        <span id="edit_type_{{type.type}}">
+            <a class="edit_button" href="javascript: $('#edit_type_{{type.type}} .edit_button').hide(); $('#edit_type_{{type.type}} form').show(); void(0)">Edit</a>
+            <form method="post" action="{{url(controller='projects', action='type_rate', project=c.project.id, type=type.type)}}" class="edit_type" style="display: none">
                 <input type="number" name="rate" value="{{type.rate or c.project.rate}}" />
                 <input type="submit" value="Save" />
-                <a href="javascript:$('#edit_type_{{type}} .edit_button').show(); $('#edit_type_{{type}} form').hide(); void(0);">Cancel</a>
+                <a href="javascript:$('#edit_type_{{type.type}} .edit_button').show(); $('#edit_type_{{type.type}} form').hide(); void(0);">Cancel</a>
             </form>
         </span>
     </li>

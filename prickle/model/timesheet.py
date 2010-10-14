@@ -150,7 +150,7 @@ class Project(Document):
 
     @property
     def project_types(self):
-        type_names = ProjectType.type_list(self.id)
+        return ProjectType.type_list(self.id)
 
 
     @classmethod

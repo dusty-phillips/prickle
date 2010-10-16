@@ -43,6 +43,10 @@ def make_map(config):
     map.connect('/timesheet/month/{year}/{month}', controller="timesheet",
             action="month", requirements={'year': '\d\d\d\d', 'month': '\d\d'})
 
+    map.connect('/projects/view/{id}', controller="projects",
+            action="view")
+    map.connect('/projects/edit/{id}', controller="projects",
+            action="edit")
     map.connect('/projects/{project}/{type}', controller="projects",
             action="type_rate")
 

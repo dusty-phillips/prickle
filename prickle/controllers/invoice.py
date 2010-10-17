@@ -67,6 +67,7 @@ class InvoiceController(BaseController):
         invoice.store()
         timesheets = Timesheet.for_project(project_name, unbilled=True)
         for timesheet in timesheets:
+            timesheet.archived_rate = timesheet.rate
             timesheet.invoice = invoice.id
             timesheet.store()
         return redirect(url(controller="invoice", action="summary",

@@ -54,6 +54,7 @@ class Timesheet(Document):
     type = TextField(default='')
     description = TextField()
     invoice = TextField(default='')
+    archived_rate = DecimalField()
     _all_timesheets = ViewField('timesheets', '''\
             function(doc) {
                 emit(doc.project, doc);
@@ -129,6 +130,8 @@ class Timesheet(Document):
     @property
     def rate(self):
         project = Project.load(self.project)
+        if self.archived_rate:
+            return self.archived_rate
         if self.invoice:
             invoice = Invoice.load(self.invoice)
             if invoice and invoice.rate:

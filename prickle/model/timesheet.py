@@ -136,6 +136,10 @@ class Timesheet(Document):
             invoice = Invoice.load(self.invoice)
             if invoice and invoice.rate:
                 return invoice.rate
+        if self.type:
+            type = ProjectType.load_or_create(self.project, self.type)
+            if type and type.rate:
+                return type.rate
         if project:
             return project.rate
         return 0 

@@ -94,15 +94,23 @@
     
         <table class="invoice">
             <tr>
-                <th>Project</th>
+                <th>Component</th>
                 <th>Hours</th>
                 <th>Rate</th>
                 <th>Total</th>
             </tr>
+            {% for type, value in c.types.items() %}
             <tr>
-                <td>{{c.project.id}}</td>
+                <td>{{type if type else c.project.id}}</td>
+                <td>{{"%.2f" % (value[0])}}</td>
+                <td>${{"%.2f" % (value[1])}}</td>
+                <td>${{"%.2f" % (value[2])}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th>{% if c.invoice.tax %}Sub{% else %}T{% endif %}otal</th>
                 <td>{{"%.2f" % (c.total_time)}}</td>
-                <td>${{"%.2f" % (c.project.rate)}}</td>
+                <td></td>
                 <td>${{"%.2f" % (c.total_fee)}}</td>
             </tr>
             {% if c.invoice.tax %}

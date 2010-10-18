@@ -18,6 +18,7 @@
 
 import logging
 import datetime
+from collections import defaultdict
 from decimal import Decimal
 
 from pylons.decorators import validate
@@ -97,6 +98,16 @@ class InvoiceController(BaseController):
         c.invoice = invoice
         c.project = Project.load_or_create(invoice.project)
         c.timesheets = Timesheet.for_invoice(id)
+        # FIXME: I suspect this could be done more efficiently
+        # in a couchdb map/reduce
+        types = defaultdict(int)
+        rates = {}
+        for timesheet in c.timesheets:
+            types[timesheet.type] += timesheet.duration
+            rates[timesheet.type] = timesheet.rate
+        c.types = {}
+        for type, hours in types.items():
+            c.types[type] = (hours, rates[type], hours*rates[type])
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = c.total_time * invoice.rate
         c.taxes = c.total_fee * invoice.tax * Decimal("0.01")

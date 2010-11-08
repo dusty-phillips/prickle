@@ -117,6 +117,9 @@ function save_edit_timesheet(id) {
         $('#edit_timesheet_' + id).replaceWith(data);
     });
 }
+function cancel_edit_timesheet(id) {
+    $('#edit_timesheet_'+id).replaceWith(edit_row);
+}
 
 function format_time_part(time_part) {
     time_part = "" + time_part;

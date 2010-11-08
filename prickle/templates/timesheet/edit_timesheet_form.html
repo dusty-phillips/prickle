@@ -12,6 +12,7 @@
 <td class="description"><input type="text" name="description" id="edit_description" placeholder="description" value="{{c.timesheet.description}}" /></td>
 <td>
     <input type="button" onclick="save_edit_timesheet('{{c.timesheet.id}}');" value="Save" />
+    <input type="button" onclick="cancel_edit_timesheet('{{c.timesheet.id}}');" value="Cancel" />
     <span id="error_message"></span>
 </td>
 </form>

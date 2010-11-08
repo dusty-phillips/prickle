@@ -1,0 +1,28 @@
+    <tr id="timesheet_row_{{timesheet.id}}">
+            <td class="date"><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
+            <td>{{"%.2f"|format(timesheet.duration)}}</td>
+            <td>${{"%.2f"|format(timesheet.rate)}}</td>
+            <td>${{"%.2f"|format(timesheet.fee)}}</td>
+            <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
+            <td>{{timesheet.type}}</td>
+            <td class="description">{{timesheet.description}}</td>
+            {% if c.invoice_column %}
+            <td>
+                {% if timesheet.invoice %}
+                    {% if timesheet.invoice == "no invoice" %}
+                        No Invoice
+                    {% else %}
+                        <a href="{{h.url(controller="invoice", action="summary", id=timesheet.invoice)}}">{{timesheet.invoice}}</a>
+                    {% endif %}
+                {% endif %}
+            </td>
+            {% endif %}
+            {% if c.delete_column %}
+            <td>
+                {% if not timesheet.invoice %}
+                <button class="delete_button" onclick="delete_timesheet('{{timesheet.id}}');">Delete</button>
+                <button class="edit_button" onclick="edit_timesheet('{{timesheet.id}}');">Edit</button>
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>

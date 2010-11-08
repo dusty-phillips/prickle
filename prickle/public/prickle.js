@@ -71,11 +71,14 @@ function parse_duration(value) {
     minutes = format_time_part(value);
     return "00:" + minutes;
 }
-function setup_duration() {
-    $('#duration').blur(function() {
-        var parsed = parse_duration($('#duration').val());
+function setup_duration(id) {
+    if (!id) {
+        id = '#duration';
+    }
+    $(id).blur(function() {
+        var parsed = parse_duration($(id).val());
         if (parsed != null) {
-            $('#duration').val(parsed);
+            $(id).val(parsed);
         }
     });
 
@@ -93,6 +96,25 @@ function delete_timesheet(id) {
         total_duration -= duration;
         $('tr.total').children(":eq(3)").html('$' + total_duration.toFixed(2));
         $('#timesheet_row_' + id).fadeOut();
+    });
+}
+edit_row = null;
+function edit_timesheet(id) {
+    $.get('/timesheet/edit/' + id, {}, function(data, textStatus, xhr) {
+        $('#timesheet_row_' + id).before(data);
+        edit_row = $('#timesheet_row_' + id).detach();
+        setup_duration('#edit_duration');
+    });
+}
+function save_edit_timesheet(id) {
+    $.post('/timesheet/save_edit/' + id, {
+        'date': $('#edit_date').val(),
+        'duration': $('#edit_duration').val(),
+        'project': $('#edit_project').val(),
+        'type': $('#edit_type').val(),
+        'description': $('#edit_description').val(),
+    }, function(data, textStatus, xhr) {
+        $('#edit_timesheet_' + id).replaceWith(data);
     });
 }
 

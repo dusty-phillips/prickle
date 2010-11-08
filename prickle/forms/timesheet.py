@@ -42,6 +42,13 @@ class TimesheetForm(formencode.Schema):
     type = formencode.validators.String()
     description = formencode.validators.String()
 
+class EditTimesheetForm(formencode.Schema):
+    date = DateValidator()
+    duration = DurationValidator(not_empty=True)
+    project = formencode.validators.String(not_empty=True)
+    type = formencode.validators.String()
+    description = formencode.validators.String()
+
 class RateForm(formencode.Schema):
     rate = DecimalValidator()
 

@@ -1,0 +1,18 @@
+<tr id="edit_timesheet_{{c.timesheet.id}}">
+
+<form id="logtimeform">
+<td>
+    <input id='edit_date' class="required date" type="text" name="date" value="{{c.timesheet.date}}" />
+</td>
+<td><input id='edit_duration' class="required duration" type="text" name="duration" autofocus placeholder="time" value="{{c.timesheet.duration}}" /></td>
+<td></td>
+<td></td>
+<td><input id='edit_project' class="required" type="text" name="project" placeholder="project" value="{{c.timesheet.project}}" /></td>
+<td><input id='edit_type' type="text" name="type" placeholder="type" value="{{c.timesheet.type}}" /></td>
+<td class="description"><input type="text" name="description" id="edit_description" placeholder="description" value="{{c.timesheet.description}}" /></td>
+<td>
+    <input type="button" onclick="save_edit_timesheet('{{c.timesheet.id}}');" value="Save" />
+    <span id="error_message"></span>
+</td>
+</form>
+</tr>

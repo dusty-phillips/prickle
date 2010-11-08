@@ -22,7 +22,7 @@ import json
 from collections import defaultdict
 from decimal import Decimal
 
-from prickle.forms.timesheet import TimesheetForm
+from prickle.forms.timesheet import TimesheetForm, EditTimesheetForm
 
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.decorators import validate
@@ -111,4 +111,18 @@ class TimesheetController(BaseController):
     def types_for_project(self, id):
         return json.dumps(ProjectType.type_list(id))
 
+    def edit(self, id):
+        c.timesheet = Timesheet.load(id)
+        return render('/timesheet/edit_timesheet_form.html')
 
+    @validate(schema=EditTimesheetForm, form='edit')
+    def save_edit(self, id):
+        c.timesheet = Timesheet.load(id)
+        c.timesheet.date=self.form_result['date']
+        c.timesheet.duration=self.form_result['duration']
+        c.timesheet.project=self.form_result['project']
+        c.timesheet.type=self.form_result['type']
+        c.timesheet.description=self.form_result['description']
+        c.timesheet.store()
+        c.delete_column = True
+        return render('/timesheet/timesheet_row_direct.html')

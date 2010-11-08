@@ -83,17 +83,20 @@ input[type=button], input[type=submit], button, a.button {
 input[type=date] {
     width: 7em;
 }
-#duration {
+#duration, #edit_duration {
     width: 6ex;
 }
-#project {
+#project, #edit_project {
     width: 12ex;
 }
-#type {
+#type, #edit_type {
     width: 12ex;
 }
 #description {
     width: 25ex;
+}
+#edit_description {
+    width: 12ex;
 }
 .error {
     color: #f44;

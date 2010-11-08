@@ -1,8 +1,8 @@
     <tr id="timesheet_row_{{timesheet.id}}">
             <td class="date"><a href="{{h.url(controller="timesheet", action="date", date=timesheet.date.strftime('%Y-%m-%d'))}}">{{timesheet.date.strftime('%Y-%m-%d')}}</a></td>
-            <td>{{"%.2f"|format(timesheet.duration)}}</td>
+            <td class="duration_sum">{{h.decimal_to_hours(timesheet.duration)}}</td>
             <td>${{"%.2f"|format(timesheet.rate)}}</td>
-            <td>${{"%.2f"|format(timesheet.fee)}}</td>
+            <td class="fee_sum">${{"%.2f"|format(timesheet.fee)}}</td>
             <td><a href="{{h.url(controller="timesheet", action="project", id=timesheet.project)}}">{{timesheet.project}}</a></td>
             <td>{{timesheet.type}}</td>
             <td class="description">{{timesheet.description}}</td>

@@ -60,7 +60,7 @@ function parse_duration(value) {
     }
     // All integers. If it's a low number, assume hours else minutes
     value = parseInt(value);
-    if (value < 5) {
+    if (value < 7) {
         return "" + value + ":00";
     }
     if (value > 59) {
@@ -81,21 +81,29 @@ function setup_duration(id) {
             $(id).val(parsed);
         }
     });
+}
+
+function update_totals() {
+    var duration = 0.0;
+    $('.duration_sum').each(function(i, e) {
+        var splitted = $(e).html().split(':');
+        duration += parseInt(splitted[0]);
+        duration += parseInt(splitted[1]) / 60.0;
+    });
+    $('tr.total').children(":eq(1)").html(parse_duration(duration.toFixed(2)));
+
+    var fee = 0.0;
+    $('.fee_sum').each(function(i, e) {
+        fee += parseFloat($(e).html().substring(1));
+    });
+    $('tr.total').children(":eq(3)").html('$' + fee.toFixed(2));
 
 }
 
 function delete_timesheet(id) {
     $.post('/timesheet/delete/' + id, {}, function(data, textStatus, xhr) {
-        /* some kinda fragile magic numbers here. Before removing the lineitem, update the totals */
-        var time = parseFloat($('#timesheet_row_' + id).children(":eq(1)").html());
-        var total_time = parseFloat($('tr.total').children(":eq(1)").html());
-        total_time -= time;
-        $('tr.total').children(":eq(1)").html(total_time.toFixed(2));
-        var duration = parseFloat($('#timesheet_row_' + id).children(":eq(3)").html().substring(1));
-        var total_duration = parseFloat($('tr.total').children(":eq(3)").html().substring(1));
-        total_duration -= duration;
-        $('tr.total').children(":eq(3)").html('$' + total_duration.toFixed(2));
-        $('#timesheet_row_' + id).fadeOut();
+        $('#timesheet_row_' + id).remove();
+        update_totals();
     });
 }
 edit_row = null;
@@ -114,8 +122,11 @@ function save_edit_timesheet(id) {
         'type': $('#edit_type').val(),
         'description': $('#edit_description').val(),
     }, function(data, textStatus, xhr) {
+        console.log(data);
         $('#edit_timesheet_' + id).replaceWith(data);
+        update_totals();
     });
+    return false;
 }
 function cancel_edit_timesheet(id) {
     $('#edit_timesheet_'+id).replaceWith(edit_row);

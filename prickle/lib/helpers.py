@@ -35,3 +35,8 @@ def previous_month(date):
 
 def next_month(date):
     return date+dateutil.relativedelta.relativedelta(months=1)
+
+def decimal_to_hours(value):
+    hours = int(value)
+    minutes = (value - hours) * 60
+    return ("%2d:%02d" % (hours, minutes))

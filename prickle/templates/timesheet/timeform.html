@@ -13,7 +13,7 @@
 </div>
 <form id="logtimeform" method="POST" action="/timesheet/logit">
     <input type="hidden" name="next" value="{{request.path}}" />
-    <input class="required date" type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
+    <input class="required dateISO" type="date" name="date" value="{{c.date.strftime('%Y-%m-%d')}}" />
     <input class="required duration" type="text" name="duration" id="duration" autofocus placeholder="time" />
     <input class="required" type="text" name="project" id="project" placeholder="project" />
     <input type="text" name="type" id="type" placeholder="type" />

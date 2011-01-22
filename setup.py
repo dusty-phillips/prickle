@@ -7,8 +7,8 @@ except ImportError:
 
 setup(
     name='prickle',
-    version='0.3',
-    description='A simple couchdb based time-tracking tool',
+    version='0.4',
+    description='A simple mongodb based time-tracking tool',
     author='Dusty Phillips',
     author_email='dusty@archlinux.ca',
     url='',

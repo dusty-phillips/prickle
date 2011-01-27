@@ -19,7 +19,6 @@
 from decimal import Decimal
 import datetime
 import mongoengine
-from prickle.model.invoice import Invoice
 from pylons import config
 
 db_name = config.get('database_name', 'prickle')
@@ -54,7 +53,7 @@ class Timesheet(mongoengine.Document):
 
 class Project(mongoengine.Document):
     name = mongoengine.StringField(primary_key=True)
-    rate = mongoengine.DecimalField()
+    rate = mongoengine.DecimalField(default=0)
 
     def __str__(self):
         return self.name
@@ -69,7 +68,7 @@ class ProjectType(mongoengine.Document):
 class Invoice(mongoengine.Document):
     date = mongoengine.DateTimeField()
     bill_to = mongoengine.StringField()
-    project = mongoengine.StringField()
+    project = mongoengine.ReferenceField(Project)
     rate = mongoengine.DecimalField()
     tax = mongoengine.DecimalField(default=0.0)
 

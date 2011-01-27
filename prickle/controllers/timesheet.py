@@ -30,8 +30,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project
-from prickle.model.invoice import Invoice
+from prickle.model.timesheet import Timesheet, Project, Invoice
 
 
 log = logging.getLogger(__name__)
@@ -112,12 +111,13 @@ class TimesheetController(BaseController):
         return render('/timesheet/month_summary.html')
     
     def project(self, id):
-        c.project = Project.load_or_create(id)
-        c.timesheets = Timesheet.for_project(id, unbilled=True)
+        c.project = Project.objects.get(name=id)
+        c.timesheets = Timesheet.objects(project=c.project,
+                __raw__={'invoice': None})
         c.title = "Project Summary for %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
-        c.invoices = Invoice.for_project(id)
+        c.invoices = Invoice.objects(project=c.project)
         return render('/timesheet/project_summary.html')
 
     def types_for_project(self, id):

@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 class ProjectsController(BaseController):
 
     def list(self):
-        c.projects = Project.project_list()
+        c.projects = Project.objects()
         return render('/project/project_list.html')
 
     def view(self, id):

@@ -30,7 +30,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project, ProjectType, timesheets
+from prickle.model.timesheet import Timesheet, Project
 from prickle.model.invoice import Invoice
 
 
@@ -41,23 +41,35 @@ class TimesheetController(BaseController):
         today = datetime.date.today()
         c.title = "Log Time"
         c.entry_title = "Uninvoiced Entries"
-        c.timesheets = Timesheet.all_timesheets(unbilled=True)
-        c.total_time = sum(t.duration for t in c.timesheets)
+        # FIXME: Surely mongoengine knows how to get References by not set?
+        c.timesheets = Timesheet.objects(__raw__={'invoice': None})
+        c.total_time = sum(Decimal(t.duration) for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
-        c.project_list = Project.project_list()
+        c.project_list = Project.objects()
         c.date = datetime.date.today()
         c.delete_column = True
         return render('/timesheet/timeform.html')
 
     @validate(schema=TimesheetForm, form='index')
     def logit(self):
+        project, created = Project.objects.get_or_create(
+                name=self.form_result['project'])
+        if self.form_result['type']:
+            type = ProjectType.objects.get_or_create(
+                    project=project, type=type)
+        else:
+            type = None
         timesheet = Timesheet(
-                date=self.form_result['date'],
+                date=datetime.datetime(
+                    self.form_result['date'].year,
+                    self.form_result['date'].month,
+                    self.form_result['date'].day,
+                    ),
                 duration=self.form_result['duration'],
-                project=self.form_result['project'],
-                type=self.form_result['type'],
+                project=project,
+                type=None,
                 description=self.form_result['description'])
-        timesheet.store()
+        timesheet.save()
         path = request.params.get('next')
         if not path:
             path = url(controller="timesheet", action="index")

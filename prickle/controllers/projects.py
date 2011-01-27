@@ -43,9 +43,9 @@ class ProjectsController(BaseController):
 
     @validate(schema=RateForm, form='view')
     def edit(self, id):
-        project = Project.load_or_create(id)
+        project, created = Project.objects.get_or_create(name=id)
         project.rate = self.form_result['rate']
-        project.store()
+        project.save()
         return redirect(url(controller="timesheet", action="index"))
 
     @validate(schema=RateForm, form='view')

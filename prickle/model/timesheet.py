@@ -51,6 +51,12 @@ class Timesheet(mongoengine.Document):
     def fee(self):
         return self.rate * self.duration
 
+    @classmethod
+    def for_date(cls, date):
+        start = datetime.datetime(date.year, date.month, date.day)
+        end = datetime.datetime(date.year, date.month, date.day, 23, 59, 59)
+        return Timesheet.objects(date__gte=start, date__lte=end)
+
 class Project(mongoengine.Document):
     name = mongoengine.StringField(primary_key=True)
     rate = mongoengine.DecimalField(default=0)

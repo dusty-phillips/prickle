@@ -38,8 +38,7 @@ class ProjectsController(BaseController):
         return render('/project/project_list.html')
 
     def view(self, id):
-        project = Project.load_or_create(id)
-        c.project = project
+        c.project, created = Project.objects.get_or_create(name=id)
         return render('/project/project_form.html')
 
     @validate(schema=RateForm, form='view')

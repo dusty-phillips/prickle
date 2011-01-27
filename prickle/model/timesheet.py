@@ -58,10 +58,16 @@ class Project(mongoengine.Document):
     def __str__(self):
         return self.name
 
+    def project_types(self):
+        return ProjectType.objects(project=self)
+
 class ProjectType(mongoengine.Document):
     project = mongoengine.ReferenceField(Project)
     type = mongoengine.StringField()
     rate = mongoengine.DecimalField(default=0)
+
+    def __str__(self):
+        return self.type
 
 # There is an invoice.py models file but maybe it doesn't need
 # to exist...

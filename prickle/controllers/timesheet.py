@@ -30,7 +30,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.timesheet import Timesheet, Project, Invoice
+from prickle.model.timesheet import Timesheet, Project, ProjectType, Invoice
 
 
 log = logging.getLogger(__name__)
@@ -54,8 +54,8 @@ class TimesheetController(BaseController):
         project, created = Project.objects.get_or_create(
                 name=self.form_result['project'])
         if self.form_result['type']:
-            type = ProjectType.objects.get_or_create(
-                    project=project, type=type)
+            type, created = ProjectType.objects.get_or_create(
+                    project=project, type=self.form_result['type'])
         else:
             type = None
         timesheet = Timesheet(
@@ -66,7 +66,7 @@ class TimesheetController(BaseController):
                     ),
                 duration=self.form_result['duration'],
                 project=project,
-                type=None,
+                type=type,
                 description=self.form_result['description'])
         timesheet.save()
         path = request.params.get('next')

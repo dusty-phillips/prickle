@@ -50,8 +50,10 @@ class ProjectsController(BaseController):
 
     @validate(schema=RateForm, form='view')
     def type_rate(self, project, type):
-        project_type = ProjectType.load_or_create(project, type)
+        project, created = Project.objects.get_or_create(name=project)
+        project_type, created = ProjectType.objects.get_or_create(
+                project=project, type=type)
         project_type.rate = self.form_result['rate']
-        project_type.store()
+        project_type.save()
         return redirect(url(controller="timesheet", action="project",
             id=project))

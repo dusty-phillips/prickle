@@ -10,7 +10,7 @@ Project Rate: ${{c.project.rate}} <a href="{{url(controller="projects", action="
 {% endif %}
 <h3>Work Types</h3>
 <ul>
-    {% for type in c.project.project_types %}
+    {% for type in c.project.project_types() %}
     <li>{{type.type or "[None]"}}: 
         {% if type.rate %}
             <span class="set_rate">${{type.rate}}</span>

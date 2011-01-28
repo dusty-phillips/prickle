@@ -90,3 +90,6 @@ class Invoice(mongoengine.Document):
         if count:
             return invoices[count-1]
         return 1
+
+    def __str__(self):
+        return str(self.number)

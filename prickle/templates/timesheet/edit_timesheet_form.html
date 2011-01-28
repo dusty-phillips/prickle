@@ -2,7 +2,7 @@
 
 <form id="logtimeform" onsubmit="return save_edit_timesheet('{{c.timesheet.id}}');" >
 <td>
-    <input id='edit_date' class="required date" type="date" name="date" value="{{c.timesheet.date}}" />
+    <input id='edit_date' class="required date" type="date" name="date" value="{{c.timesheet.date.strftime('%Y-%m-%d')}}" />
 </td>
 <td><input id='edit_duration' class="required duration" type="text" name="duration" autofocus placeholder="time" value="{{h.decimal_to_hours(c.timesheet.duration)}}" /></td>
 <td></td>

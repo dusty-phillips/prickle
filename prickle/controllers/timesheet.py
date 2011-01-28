@@ -75,8 +75,8 @@ class TimesheetController(BaseController):
         return redirect(path)
 
     def delete(self, id):
-        timesheet = Timesheet.load(id)
-        timesheets.delete(timesheet)
+        timesheet = Timesheet.objects.get(id=id)
+        timesheet.delete()
         return "deleted"
 
     def date(self, date):
@@ -123,17 +123,28 @@ class TimesheetController(BaseController):
         return json.dumps(ProjectType.type_list(id))
 
     def edit(self, id):
-        c.timesheet = Timesheet.load(id)
+        c.timesheet = Timesheet.objects.get(id=id)
         return render('/timesheet/edit_timesheet_form.html')
 
     @validate(schema=EditTimesheetForm, form='edit')
     def save_edit(self, id):
-        c.timesheet = Timesheet.load(id)
-        c.timesheet.date=self.form_result['date']
+        c.timesheet = Timesheet.objects.get(id=id)
+        c.timesheet.date=datetime.datetime(
+                    self.form_result['date'].year,
+                    self.form_result['date'].month,
+                    self.form_result['date'].day,
+                    )
         c.timesheet.duration=self.form_result['duration']
-        c.timesheet.project=self.form_result['project']
-        c.timesheet.type=self.form_result['type']
+        project, created = Project.objects.get_or_create(
+                name=self.form_result['project'])
+        if self.form_result['type']:
+            type, created = ProjectType.objects.get_or_create(
+                    project=project, type=self.form_result['type'])
+        else:
+            type = None
+        c.timesheet.project=project
+        c.timesheet.type=type
         c.timesheet.description=self.form_result['description']
-        c.timesheet.store()
+        c.timesheet.save()
         c.delete_column = True
         return render('/timesheet/timesheet_row_direct.html')

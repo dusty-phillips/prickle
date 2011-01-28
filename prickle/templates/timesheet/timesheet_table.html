@@ -12,6 +12,6 @@
     {% include 'timesheet/timesheet_row.html' %}
     {% endfor %}
     {% if c.total_time %}
-    <tr class="total"><td></td><td>{{h.decimal_to_hours(c.total_time)}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}</tr>
+    <tr class="total"><td></td><td>{{h.decimal_to_hours(c.total_time)}}</td><td></td><td>${{"%.2f" % c.total_fee}}</td><td></td><td></td><td></td>{% if c.delete_column %}<td></td>{% endif %}{% if c.invoice_column %}<td></td>{% endif %}</tr>
     {% endif %}
 </table>

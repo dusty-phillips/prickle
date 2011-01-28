@@ -9,15 +9,15 @@ Preparation
 Make sure these apps are available on your system:
   python
   virtualenv
-  couchdb
+  mongodb
 
 On Arch Linux, do:
-  sudo pacman -S python python-virtualenv couchdb 
+  sudo pacman -S python python-virtualenv mongodb 
 
 All other deps should be pulled into the virtualenv in the install process.
 
-Ensure couchdb is running:
-  sudo /etc/rc.d/couchdb start
+Ensure mongodb is running:
+  sudo /etc/rc.d/mongodb start
 
 Installation and Setup
 ======================
@@ -42,7 +42,8 @@ Installation and Setup
 7. set up the egg links:
     python setup.py develop
 
-8. Optionally edit production.ini to suit your needs. There is one custom setting in here, couchdb_prefix that is used in naming couchdb databases.
+8. Optionally edit production.ini to suit your needs. There is one custom
+setting in here, database_name that is used in naming mongodb databases.
 
 9. Run the server:
     paster serve --reload production.ini

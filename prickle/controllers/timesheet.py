@@ -18,6 +18,7 @@
 
 import logging
 import datetime
+from dateutil.relativedelta import relativedelta
 import json
 from collections import defaultdict
 from decimal import Decimal
@@ -90,9 +91,12 @@ class TimesheetController(BaseController):
         return render('/timesheet/timeform.html')
 
     def month(self, year, month):
-        c.date = datetime.date(int(year), int(month), 1)
+        month_start = datetime.datetime(int(year), int(month), 1)
+        month_end = month_start + relativedelta(months=1) - relativedelta(days=1)
+        c.date = month_start.date()
         c.title = "Timesheet summary for %s" % c.date.strftime("%B, %Y")
-        c.timesheets = Timesheet.for_month(year, month)
+        c.timesheets = Timesheet.objects(date__gte=month_start,
+                date__lte=month_end)
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoice_column = True

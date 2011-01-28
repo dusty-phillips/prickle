@@ -1,4 +1,4 @@
-# Copyright 2010 Dusty Phillips
+# Copyright 2010-2011 Dusty Phillips
 
 # This file is part of Prickle.
 

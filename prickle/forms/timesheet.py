@@ -18,21 +18,20 @@
 
 import formencode
 
-import couchdb
-
+import mongoengine
 
 from .validators import DateValidator, DurationValidator, DecimalValidator
 
-from prickle.model.invoice import invoices
+from prickle.model.timesheet import Invoice
 
 class UniqueInvoiceValidator(formencode.validators.FancyValidator):
     def _to_python(self, value, state):
         try:
-            number = invoices[value]
-        except couchdb.http.ResourceNotFound:
+            invoice = Invoice.objects.get(number=int(value))
+        except Invoice.DoesNotExist:
             return value
         else:
-            raise formencode.validators.Invalid("Duplicate invoice id")
+            raise formencode.validators.Invalid("Duplicate invoice id", value, state)
 
 class TimesheetForm(formencode.Schema):
     next = formencode.validators.String()

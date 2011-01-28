@@ -27,8 +27,7 @@ from pylons.controllers.util import abort, redirect
 
 from prickle.lib.base import BaseController, render
 
-from prickle.model.invoice import Invoice
-from prickle.model.timesheet import Timesheet, Project
+from prickle.model.timesheet import Timesheet, Project, Invoice
 
 from prickle.forms.timesheet import InvoiceForm
 
@@ -39,14 +38,15 @@ class InvoiceController(BaseController):
     def create_form(self, id):
         project_name = id
         c.date = datetime.date.today()
-        c.project = Project.load_or_create(project_name)
-        c.timesheets = Timesheet.for_project(project_name, unbilled=True)
+        c.project = Project.objects.get(name=project_name)
+        c.timesheets = Timesheet.objects(project=c.project,
+                __raw__={'invoice': None})
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = c.total_time * c.project.rate
         c.next_invoice_number = Invoice.next_invoice_number()
-        previous_invoices = Invoice.for_project(project_name)
-        if previous_invoices.rows:
-            c.bill_to = previous_invoices.rows[-1].bill_to
+        previous_invoices = Invoice.objects(project=c.project)
+        if previous_invoices.count():
+            c.bill_to = previous_invoices[previous_invoices.count()-1].bill_to
         return render("/invoice/invoice_form.html")
 
     @validate(schema=InvoiceForm, form='create_form')
@@ -56,23 +56,28 @@ class InvoiceController(BaseController):
         # id = name of the project
         # invoice.id = invoice number
         project_name = id
-        project = Project.load_or_create(project_name)
+        project = Project.objects.get(name=project_name)
         invoice = Invoice(
-                project=project_name,
-                id=self.form_result['invoice_number'],
+                project=project,
+                number=self.form_result['invoice_number'],
                 bill_to=self.form_result['bill_to'],
                 tax=self.form_result['tax'],
-                date=self.form_result['date'],
+                date=datetime.datetime(
+                    self.form_result['date'].year,
+                    self.form_result['date'].month,
+                    self.form_result['date'].day,
+                    ),
                 rate=project.rate
                 )
-        invoice.store()
-        timesheets = Timesheet.for_project(project_name, unbilled=True)
+        invoice.save()
+        timesheets = Timesheet.objects(project=project,
+                __raw__={'invoice': None})
         for timesheet in timesheets:
             timesheet.archived_rate = timesheet.rate
-            timesheet.invoice = invoice.id
-            timesheet.store()
+            timesheet.invoice = invoice
+            timesheet.save()
         return redirect(url(controller="invoice", action="summary",
-            id=invoice.id))
+            id=invoice.number))
 
     def mark_billed(self, id):
         '''Sometimes we want to record timesheets as invoiced
@@ -94,12 +99,9 @@ class InvoiceController(BaseController):
         return redirect(url(controller="timesheet", action="index"))
 
     def view(self, id):
-        invoice = Invoice.load(id)
-        c.invoice = invoice
-        c.project = Project.load_or_create(invoice.project)
-        c.timesheets = Timesheet.for_invoice(id)
-        # FIXME: I suspect this could be done more efficiently
-        # in a couchdb map/reduce
+        c.invoice = Invoice.objects.get(number=int(id))
+        c.project = c.invoice.project
+        c.timesheets = Timesheet.objects(invoice=c.invoice)
         types = defaultdict(int)
         rates = {}
         for timesheet in c.timesheets:
@@ -109,21 +111,21 @@ class InvoiceController(BaseController):
         for type, hours in types.items():
             c.types[type] = (hours, rates[type], hours*rates[type])
         c.total_time = sum(t.duration for t in c.timesheets)
-        c.total_fee = c.total_time * invoice.rate
-        c.taxes = c.total_fee * invoice.tax * Decimal("0.01")
+        c.total_fee = c.total_time * c.invoice.rate
+        c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
         c.after_taxes = c.total_fee + c.taxes
         return render("/invoice/invoice.html")
 
     def list(self):
-        c.invoices = Invoice.all_invoices()
+        c.invoices = Invoice.objects()
         return render("/invoice/invoice_list.html")
 
     def summary(self, id):
-        c.timesheets = Timesheet.for_invoice(id)
+        c.invoice = Invoice.objects.get(number=int(id))
+        c.timesheets = Timesheet.objects(invoice=c.invoice)
         c.title = "Invoice %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
-        c.invoice = Invoice.load(id)
         c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
         c.after_taxes = c.total_fee + c.taxes
         return render('/invoice/invoice_summary.html')

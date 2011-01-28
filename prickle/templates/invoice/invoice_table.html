@@ -3,7 +3,7 @@
     {% for invoice in c.invoices %}
     <tr>
         <td>
-            <a href="{{h.url(controller="invoice", action="summary", id=invoice.id)}}">{{invoice.id}}</a>
+            <a href="{{h.url(controller="invoice", action="summary", id=invoice.number)}}">{{invoice.number}}</a>
         </td> 
         <td>
             <a href="{{h.url(controller="timesheet", action="month", month=invoice.date.strftime('%m'), year=invoice.date.strftime('%Y'))}}">{{invoice.date.strftime('%Y-%m-%d')}}</a></td>
@@ -12,7 +12,7 @@
         </td>
         <td>
             <a href="{{h.url(controller="invoice", action="view",
-                id=invoice.id)}}">Print</a>
+                id=invoice.number)}}">Print</a>
         </td>
     </tr>
     {% endfor %}

@@ -78,11 +78,23 @@ class ProjectType(mongoengine.Document):
 # There is an invoice.py models file but maybe it doesn't need
 # to exist...
 class Invoice(mongoengine.Document):
+    number = mongoengine.IntField(unique=True)
     date = mongoengine.DateTimeField()
     bill_to = mongoengine.StringField()
     project = mongoengine.ReferenceField(Project)
     rate = mongoengine.DecimalField()
     tax = mongoengine.DecimalField(default=0.0)
+
+    @classmethod
+    def next_invoice_number(cls):
+        invoices = cls.objects.order_by("number")
+        count = invoices.count()
+        if count:
+            return invoices[count-1]
+        return 1
+
+        
+
 
 # FIXME REMOVE
 # Below here, find legacy couchdb code for reference

@@ -4,6 +4,12 @@ pretty intuitive and answers important questions like "how much money did I
 make today", and "how many hours did I bill for this project" quickly and
 easily. It also handles basic invoicing.
 
+In version 0.4, I've ported prickle from couchdb to mongodb. Couchdb was
+getting slow for me, and I didn't like the interface for how to optimize it.
+Mongo has been much easier to work with. There is a script, migrate_to_mongo.py
+that may or may not work for porting your prickle data from couchdb. Patches
+are welcome!
+
 Preparation
 ============
 Make sure these apps are available on your system:

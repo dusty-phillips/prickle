@@ -87,15 +87,15 @@ class InvoiceController(BaseController):
         We do this by attaching those timesheets to a single
         invoice named 'no invoice'.'''
         project_name = id
-        invoice = Invoice.load("no invoice")
-        if not invoice:
-            invoice = Invoice(id="no invoice")
-            invoice.store()
+        project, cr = Project.objects.get_or_create(name=project_name)
+        invoice, cr = Invoice.objects.get_or_create(number=-1)
 
-        timesheets = Timesheet.for_project(project_name, unbilled=True)
+        timesheets = Timesheet.objects(project=project,
+                __raw__={'invoice': None})
         for timesheet in timesheets:
-            timesheet.invoice = invoice.id
-            timesheet.store()
+            print timesheet
+            timesheet.invoice = invoice
+            timesheet.save()
         return redirect(url(controller="timesheet", action="index"))
 
     def view(self, id):

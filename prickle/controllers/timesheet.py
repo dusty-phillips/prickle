@@ -42,7 +42,8 @@ class TimesheetController(BaseController):
         c.title = "Log Time"
         c.entry_title = "Uninvoiced Entries"
         # FIXME: Surely mongoengine knows how to get References by not set?
-        c.timesheets = Timesheet.objects(__raw__={'invoice': None})
+        c.timesheets = Timesheet.objects(__raw__={'invoice': None}).order_by(
+                "-date")
         c.total_time = sum(Decimal(t.duration) for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.project_list = Project.objects()

@@ -125,7 +125,9 @@ class TimesheetController(BaseController):
         return render('/timesheet/project_summary.html')
 
     def types_for_project(self, id):
-        return json.dumps(ProjectType.type_list(id))
+        project, cr = Project.objects.get_or_create(name=id)
+        types = ProjectType.objects(project=project)
+        return json.dumps([t.type for t in types])
 
     def edit(self, id):
         c.timesheet = Timesheet.objects.get(id=id)

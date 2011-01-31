@@ -97,18 +97,18 @@ class TimesheetController(BaseController):
         c.date = month_start.date()
         c.title = "Timesheet summary for %s" % c.date.strftime("%B, %Y")
         c.timesheets = Timesheet.objects(date__gte=month_start,
-                date__lte=month_end)
+                date__lte=month_end).order_by("-date")
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoice_column = True
         #FIXME: I'm really tired and suspect this is not the right way to do this
         project_summary = defaultdict(dict) 
         for timesheet in c.timesheets:
-            project_summary[timesheet.project]['duration'] = \
-                    project_summary[timesheet.project].setdefault(
+            project_summary[timesheet.project.name]['duration'] = \
+                    project_summary[timesheet.project.name].setdefault(
                             'duration', 0) + timesheet.duration
-            project_summary[timesheet.project]['fee'] = \
-                    project_summary[timesheet.project].setdefault(
+            project_summary[timesheet.project.name]['fee'] = \
+                    project_summary[timesheet.project.name].setdefault(
                             'fee', 0) + timesheet.fee
 
         c.project_summary = project_summary

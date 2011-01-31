@@ -117,7 +117,7 @@ class TimesheetController(BaseController):
     def project(self, id):
         c.project = Project.objects.get(name=id)
         c.timesheets = Timesheet.objects(project=c.project,
-                __raw__={'invoice': None})
+                __raw__={'invoice': None}).order_by("-date")
         c.title = "Project Summary for %s" % id
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)

@@ -117,7 +117,7 @@ class InvoiceController(BaseController):
         return render("/invoice/invoice.html")
 
     def list(self):
-        c.invoices = Invoice.objects()
+        c.invoices = Invoice.objects(number__ne=-1)
         return render("/invoice/invoice_list.html")
 
     def summary(self, id):

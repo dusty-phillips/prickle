@@ -112,12 +112,14 @@ class InvoiceController(BaseController):
             c.types[type] = (hours, rates[type], hours*rates[type])
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = c.total_time * c.invoice.rate
+        from IPython import Shell
+        Shell.IPShellEmbed([])() 
         c.taxes = c.total_fee * c.invoice.tax * Decimal("0.01")
         c.after_taxes = c.total_fee + c.taxes
         return render("/invoice/invoice.html")
 
     def list(self):
-        c.invoices = Invoice.objects(number__ne=-1)
+        c.invoices = Invoice.objects(number__ne=-1).order_by('-number')
         return render("/invoice/invoice_list.html")
 
     def summary(self, id):

@@ -88,7 +88,7 @@ class Invoice(mongoengine.Document):
         invoices = cls.objects.order_by("number")
         count = invoices.count()
         if count:
-            return invoices[count-1]
+            return invoices[count-1].number + 1
         return 1
 
     def __str__(self):

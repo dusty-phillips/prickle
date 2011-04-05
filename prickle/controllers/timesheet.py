@@ -122,6 +122,11 @@ class TimesheetController(BaseController):
         c.total_time = sum(t.duration for t in c.timesheets)
         c.total_fee = sum(t.fee for t in c.timesheets)
         c.invoices = Invoice.objects(project=c.project)
+        c.invoice_totals = {'duration': 0, 'fee': 0, 'total': 0}
+        for i in c.invoices:
+            c.invoice_totals['duration'] += i.total_duration()
+            c.invoice_totals['fee'] += i.total_fee()
+            c.invoice_totals['total'] += i.total()
         return render('/timesheet/project_summary.html')
 
     def types_for_project(self, id):

@@ -93,3 +93,15 @@ class Invoice(mongoengine.Document):
 
     def __str__(self):
         return str(self.number)
+
+    def total_duration(self):
+        timesheets = Timesheet.objects(invoice=self)
+        return sum(t.duration for t in timesheets)
+
+    def total_fee(self):
+        timesheets = Timesheet.objects(invoice=self)
+        return sum(t.fee for t in timesheets)
+
+    def total(self):
+        total = self.total_fee()
+        return total + total * self.tax * Decimal('.01')

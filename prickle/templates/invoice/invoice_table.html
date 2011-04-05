@@ -10,10 +10,22 @@
         <td>
             <a href="{{h.url(controller="timesheet", action="project", id=invoice.project)}}">{{invoice.project}}</a>
         </td>
+        <td>{{h.decimal_to_hours(invoice.total_duration())}}</td>
+        <td>${{invoice.total_fee()}}</td>
+        <td>${{"%.2f"|format(invoice.total())}}</td>
         <td>
             <a href="{{h.url(controller="invoice", action="view",
                 id=invoice.number)}}">Print</a>
         </td>
     </tr>
     {% endfor %}
+    {% if c.invoice_totals %}
+    <tr>
+        <td></td><td></td><td></td>
+        <td>{{h.decimal_to_hours(c.invoice_totals['duration'])}}</td>
+        <td>${{c.invoice_totals['fee']}}</td>
+        <td>${{"%.2f"|format(c.invoice_totals['total'])}}</td>
+        <td></td>
+    </tr>
+    {% endif %}
 </table>

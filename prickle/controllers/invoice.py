@@ -105,8 +105,12 @@ class InvoiceController(BaseController):
         types = defaultdict(int)
         rates = {}
         for timesheet in c.timesheets:
-            types[timesheet.type.type] += timesheet.duration
-            rates[timesheet.type.type] = timesheet.rate
+            if timesheet.type:
+                types[timesheet.type.type] += timesheet.duration
+                rates[timesheet.type.type] = timesheet.rate
+            else:
+                types[''] += timesheet.duration
+                rates[''] = timesheet.rate
         c.types = {}
         for type, hours in types.items():
             c.types[type] = (hours, rates[type], hours*rates[type])

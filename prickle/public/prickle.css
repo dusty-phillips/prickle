@@ -57,6 +57,7 @@ input[type=button], input[type=submit], button, a.button {
     background-color: #eef;
     padding: 3px 12px;
     color: #69e;
+    cursor: pointer;
 }
 /* nav */
 .nav {

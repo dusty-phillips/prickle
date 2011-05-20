@@ -33,6 +33,9 @@
 {% block scripts %}
 <script type="text/javascript">
     $(document).ready(function() {
+        if($.browser.mozilla && parseFloat($.browser.version)>=2){
+            $("button[disabled]:not('.disabled')").removeAttr("disabled");
+        }
 
         $("#project").autocomplete({
             source: [
